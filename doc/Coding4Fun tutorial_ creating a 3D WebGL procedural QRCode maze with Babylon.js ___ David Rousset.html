@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en-US"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="profile" href="http://gmpg.org/xfn/11">
+<link rel="pingback" href="https://www.davrous.com/xmlrpc.php">
+
+<title>Coding4Fun tutorial: creating a 3D WebGL procedural QRCode maze with Babylon.js – David Rousset</title>
+<link rel="dns-prefetch" href="https://s0.wp.com/">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="https://s.w.org/">
+<link rel="alternate" type="application/rss+xml" title="David Rousset » Feed" href="https://www.davrous.com/feed/">
+<link rel="alternate" type="application/rss+xml" title="David Rousset » Comments Feed" href="https://www.davrous.com/comments/feed/">
+<link rel="alternate" type="application/rss+xml" title="David Rousset » Coding4Fun tutorial: creating a 3D WebGL procedural QRCode maze with Babylon.js Comments Feed" href="https://www.davrous.com/2014/02/19/coding4fun-tutorial-creating-a-3d-webgl-procedural-qrcode-maze-with-babylon-js/feed/">
+		<script src="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/widgets.js" id="twitter-wjs"></script><script src="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/analytics.js" async=""></script><script type="text/javascript">window._wpemojiSettings={"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.2.1\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.2.1\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/www.davrous.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.7"}};!function(a,b,c){function d(a){var b,c,d,e,f=String.fromCharCode;if(!k||!k.fillText)return!1;switch(k.clearRect(0,0,j.width,j.height),k.textBaseline="top",k.font="600 32px Arial",a){case"flag":return k.fillText(f(55356,56826,55356,56819),0,0),!(j.toDataURL().length<3e3)&&(k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57331,65039,8205,55356,57096),0,0),b=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57331,55356,57096),0,0),c=j.toDataURL(),b!==c);case"emoji4":return k.fillText(f(55357,56425,55356,57341,8205,55357,56507),0,0),d=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55357,56425,55356,57341,55357,56507),0,0),e=j.toDataURL(),d!==e}return!1}function e(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g,h,i,j=b.createElement("canvas"),k=j.getContext&&j.getContext("2d");for(i=Array("flag","emoji4"),c.supports={everything:!0,everythingExceptFlag:!0},h=0;h<i.length;h++)c.supports[i[h]]=d(i[h]),c.supports.everything=c.supports.everything&&c.supports[i[h]],"flag"!==i[h]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[i[h]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);</script><script defer="defer" type="text/javascript" src="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/wp-emoji-release.js"></script>
+		<style type="text/css">img.wp-smiley,img.emoji{display:inline!important;border:none!important;box-shadow:none!important;height:1em!important;width:1em!important;margin:0 .07em!important;vertical-align:-.1em!important;background:none!important;padding:0!important}</style>
+<link rel="stylesheet" id="oblique-bootstrap-css" href="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/A_003.css" type="text/css" media="all">
+<link rel="stylesheet" id="oblique-body-fonts-css" href="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/css_002.css" type="text/css" media="all">
+<link rel="stylesheet" id="oblique-headings-fonts-css" href="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/css.css" type="text/css" media="all">
+<link rel="stylesheet" id="oblique-style-css" href="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/A_002.css" type="text/css" media="all">
+<style id="oblique-style-inline-css" type="text/css">.site-branding{padding:150px 0}@media only screen and (max-width:1024px){.site-branding{padding:100px 0}}.site-logo{max-width:200px}.svg-block{fill:#1c1c1c}.footer-svg.svg-block{fill:#17191b!important}.site-footer{background-color:#17191b}body{color:#50545c}.site-title a,.site-title a:hover{color:#f9f9f9}.site-description{color:#fff}.entry-title,.entry-title a{color:#000}.entry-meta,.entry-meta a,.entry-footer,.entry-footer a{color:#9d9d9d}.widget-area{background-color:#17191b}.widget-area,.widget-area a{color:#f9f9f9}.social-navigation li a{color:#fff}</style>
+<link rel="stylesheet" id="oblique-font-awesome-css" href="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/A_004.css" type="text/css" media="all">
+<link rel="stylesheet" id="social-logos-css" href="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/social-logos.css" type="text/css" media="all">
+<link rel="stylesheet" id="jetpack_css-css" href="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/A_005.css" type="text/css" media="all">
+<script type="text/javascript" src="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/jquery.js"></script>
+<script type="text/javascript" src="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/jquery-migrate.js"></script>
+<script type="text/javascript">var related_posts_js_options={"post_heading":"h4"};</script>
+<script src="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/plugins_jetpack_modules_related-posts_related-posts.js"></script><script>eval(mod_pagespeed_LXR2$C6BtQ);</script>
+<script>eval(mod_pagespeed_v3GcnPpoE8);</script>
+<script>eval(mod_pagespeed_Cvrb8vswKl);</script>
+<link rel="https://api.w.org/" href="https://www.davrous.com/wp-json/">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.davrous.com/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://www.davrous.com/wp-includes/wlwmanifest.xml"> 
+<link rel="prev" title="L’histoire du jeu vidéo à travers mes 30 ans d’expérience de joueur" href="https://www.davrous.com/2013/12/30/lhistoire-du-jeu-vido-travers-mes-30-ans-dexprience-de-joueur/">
+<link rel="next" title="Next Game Frontier 2014: videos &amp; content" href="https://www.davrous.com/2014/03/20/next-game-frontier-2014-videos-content/">
+<meta name="generator" content="WordPress 4.7">
+<link rel="canonical" href="https://www.davrous.com/2014/02/19/coding4fun-tutorial-creating-a-3d-webgl-procedural-qrcode-maze-with-babylon-js/">
+<link rel="shortlink" href="https://wp.me/p7rkzQ-di">
+<link rel="alternate" type="application/json+oembed" href="https://www.davrous.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.davrous.com%2F2014%2F02%2F19%2Fcoding4fun-tutorial-creating-a-3d-webgl-procedural-qrcode-maze-with-babylon-js%2F">
+<link rel="alternate" type="text/xml+oembed" href="https://www.davrous.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.davrous.com%2F2014%2F02%2F19%2Fcoding4fun-tutorial-creating-a-3d-webgl-procedural-qrcode-maze-with-babylon-js%2F&amp;format=xml">
+
+		<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-76391475-1','auto');ga('send','pageview');</script>
+
+		
+<link rel="dns-prefetch" href="https://v0.wordpress.com/">
+<style type="text/css">img#wpstats{display:none}</style><!--[if lt IE 9]>
+<script src="https://www.davrous.com/wp-content/themes/oblique/js/html5shiv.js"></script>
+<![endif]-->
+		<style type="text/css">.recentcomments a{display:inline!important;padding:0!important;margin:0!important}</style>
+				<style type="text/css">.site-header{background:url(https://www.davrous.com/wp-content/uploads/2016/04/xcropped-davroushololenslight.jpg.pagespeed.ic.747moUnCYl.jpg) no-repeat;background-position:center top!important;background-size:cover}</style>
+		
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="Coding4Fun tutorial: creating a 3D WebGL procedural QRCode maze with Babylon.js">
+<meta property="og:url" content="https://www.davrous.com/2014/02/19/coding4fun-tutorial-creating-a-3d-webgl-procedural-qrcode-maze-with-babylon-js/">
+<meta property="og:description" content="In this tutorial, you should have a lot of fun. You’ll learn how to create a 3D Maze using Babylon.js/WebGL based on a dynamically generated QR Code! This is based on a demo I’ve written for our bi…">
+<meta property="article:published_time" content="2014-02-19T06:40:40+00:00">
+<meta property="article:modified_time" content="2016-04-21T10:44:40+00:00">
+<meta property="og:site_name" content="David Rousset">
+<meta property="og:image" content="https://www.davrous.com/wp-content/uploads/2014/02/qrmaze.jpg">
+<meta property="og:image:width" content="800">
+<meta property="og:image:height" content="500">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:image" content="https://www.davrous.com/wp-content/uploads/2014/02/qrmaze.jpg?w=640">
+<meta name="twitter:card" content="summary_large_image">
+		<style type="text/css" id="wp-custom-css"></style>
+	<!-- multilingual website powered with xili-language v. 2.21.2 - WP plugin of dev.xiligroup.com -->
+<link rel="icon" href="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAAgACADASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAABQYHCAn/xAApEAABAwIGAgEEAwAAAAAAAAABAgMRBAUABhIhMVETQQdhcYGRFDPB/8QAFwEBAQEBAAAAAAAAAAAAAAAABAYABf/EACERAAICAQIHAAAAAAAAAAAAAAECAAMREjEEBQYTIVFh/9oADAMBAAIRAxEAPwDO9kcqzrNQxXOwdKShOtGroknb8dYZ6o1tSy2w++8401/WhSiQn7DACw5mbtVqFK1SKcUtY8oUsaVp3IIMSCNh7BHWHC0V9purIVT1LSXIlTSyApPcg8/cbYOgJJLCKfQAApz7gqnt2tKXEqbcSFBKkpVJSTMAj1MH9Y0n8V/FuX7JYKK836jFzule0h5tlwHxsIMFIAHJIgmQR6jkmAKrbaxVNssPsPvuOBAQhxIEk7kqJgQOzjYVM43esp2+roHCUtsIGtlyQCEgECPYgnnf84nOpeKtpqVayQDuRF8voVny+05vtOOSAmThkyllmqzC+6lL7FOluC4VyTB9gAb8djAGib8qgkupbHav8xQsvintNGpdC+45UqADhno+gNoHW53+mKVnCnyJza11R4ybl+12AIS2nzrBKi64BqBIAMbbCBwMVzJl8Va3lCkeIbcglsmUEjscT9ecQFvN1OyR/JUkJO2pPP6w2ZazBZKpLrr18paXQEFsO1CG9ckzGogkCBwPeM/ZKZdQV+xVJbWAN5//2Q==" sizes="32x32">
+<link rel="icon" href="https://www.davrous.com/wp-content/uploads/2016/04/xcropped-header-1-192x192.jpg.pagespeed.ic._mbqxaM3Ou.jpg" sizes="192x192">
+<link rel="apple-touch-icon-precomposed" href="https://www.davrous.com/wp-content/uploads/2016/04/xcropped-header-1-180x180.jpg.pagespeed.ic.xAEFC62WV7.jpg">
+<meta name="msapplication-TileImage" content="https://www.davrous.com/wp-content/uploads/2016/04/cropped-header-1-270x270.jpg">
+	<link type="text/css" rel="stylesheet" href="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/A.css">
+	
+<style id="fit-vids-style">.fluid-width-video-wrapper{width:100%;position:relative;padding:0;}.fluid-width-video-wrapper iframe,.fluid-width-video-wrapper object,.fluid-width-video-wrapper embed {position:absolute;top:0;left:0;width:100%;height:100%;}</style><script src="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/button.js" async="" charset="utf-8" type="text/javascript"></script></head>
+
+<body class="post-template-default single single-post postid-824 single-format-standard group-blog">
+<div id="page" class="hfeed site">
+	<a class="skip-link screen-reader-text" href="#content">Skip to content</a>
+
+		<div class="sidebar-toggle">
+			<i class="fa fa-bars"></i>
+		</div>
+
+	<div class="top-bar container">
+					<nav class="social-navigation clearfix">
+				<div class="menu-socialnetworks-container"><ul id="menu-socialnetworks" class="menu clearfix"><li id="menu-item-3288" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3288"><a target="_blank" title="About me" href="https://davrous.com/about"><span class="screen-reader-text">About</span></a></li>
+<li id="menu-item-7" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7"><a title="Twitter" target="_blank" href="http://twitter.com/davrous"><span class="screen-reader-text">Twitter</span></a></li>
+<li id="menu-item-8" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-8"><a title="Facebook" target="_blank" href="http://facebook.com/davrous"><span class="screen-reader-text">facebook</span></a></li>
+<li id="menu-item-9" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-9"><a title="LinkedIn" target="_blank" href="https://linkedin.com/in/davrous"><span class="screen-reader-text">linkedin</span></a></li>
+<li id="menu-item-10" class="SoundCloudIcon menu-item menu-item-type-custom menu-item-object-custom menu-item-10"><a title="My Music" target="_blank" href="https://soundcloud.com/david-rousset"><span class="screen-reader-text">soundcloud</span></a></li>
+<li id="menu-item-3274" class="rssfeed menu-item menu-item-type-custom menu-item-object-custom menu-item-3274"><a title="RSS Feed" target="_blank" href="https://www.davrous.com/feed/"><span class="screen-reader-text">RSS</span></a></li>
+</ul></div>			</nav>
+					</div>
+
+	<div class="svg-container nav-svg svg-block">
+		
+		<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1950 150">
+		  <g transform="translate(0,-902.36218)"></g>
+		  <path d="m 898.41609,-33.21176 0.01,0 -0.005,-0.009 -0.005,0.009 z"></path>
+		  <path d="m 898.41609,-33.21176 0.01,0 -0.005,-0.009 -0.005,0.009 z"></path>
+		  <path d="M 0,150 0,0 1925,0"></path>
+		</svg>
+		</div>
+	<header style="background-position: 50% -133px;" id="masthead" class="site-header" role="banner"><canvas height="526" width="1187" style="width: 1187px; height: 525.495px; position: absolute; overflow: hidden; top: 0px; left: 0px; z-index: -2; transform: translateX(0px);" id="babylonjsBanner"></canvas>
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="site-branding">
+	        				<h1 class="site-title"><a href="https://www.davrous.com/" rel="home">David Rousset</a></h1>
+				<h2 class="site-description">Developer. Creative Geek. Composer.</h2>
+	        			</div><!-- .site-branding -->
+		</div>
+		<div class="svg-container header-svg svg-block">
+			
+		<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1890 150">
+			<g transform="translate(0,-902.36218)"></g>
+			  <path d="m 898.41609,-33.21176 0.01,0 -0.005,-0.009 -0.005,0.009 z"></path>
+			  <path d="m 898.41609,-33.21176 0.01,0 -0.005,-0.009 -0.005,0.009 z"></path>
+			  <path d="m 1925,0 0,150 -1925,0"></path>
+		</svg>
+			</div>		
+	</header><!-- #masthead -->
+
+	<div id="content" class="site-content">
+		<div class="container content-wrapper">
+	<div id="primary" class="content-area">
+		<main id="main" class="site-main" role="main">
+
+		
+				
+<div class="svg-container single-post-svg svg-block">
+	
+		<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1890 150">
+			<g transform="translate(0,-902.36218)"></g>
+			  <path d="m 898.41609,-33.21176 0.01,0 -0.005,-0.009 -0.005,0.009 z"></path>
+			  <path d="m 898.41609,-33.21176 0.01,0 -0.005,-0.009 -0.005,0.009 z"></path>
+			  <path d="m 1925,0 0,150 -1925,0"></path>
+		</svg>
+	</div>
+<article id="post-824" class="post-824 post type-post status-publish format-standard has-post-thumbnail hentry category-coding4fun category-english category-technical-article">
+
+	<header class="entry-header">
+		<h1 class="entry-title">Coding4Fun tutorial: creating a 3D WebGL procedural QRCode maze with Babylon.js</h1>
+		<div class="entry-meta">
+			<span class="posted-on"><a href="https://www.davrous.com/2014/02/19/coding4fun-tutorial-creating-a-3d-webgl-procedural-qrcode-maze-with-babylon-js/" rel="bookmark"><time class="entry-date published" datetime="2014-02-19T06:40:40+00:00">February 19, 2014</time><time class="updated" datetime="2016-04-21T10:44:40+00:00">April 21, 2016</time></a></span><span class="byline"> <span class="author vcard"><a class="url fn n" href="https://www.davrous.com/author/davrous/">David Rousset</a></span></span><span class="cat-links"><a href="https://www.davrous.com/category/coding4fun/?lang=en_us" title="View all posts in Coding4Fun" rel="category tag">Coding4Fun</a>, <a href="https://www.davrous.com/category/english/?lang=en_us" title="View all posts in English" rel="category tag">English</a>, <a href="https://www.davrous.com/category/technical-article/?lang=en_us" title="View all posts in Technical article" rel="category tag">Technical article</a></span>		</div><!-- .entry-meta -->
+	</header><!-- .entry-header -->
+
+			<div class="single-thumb">
+			<script data-pagespeed-no-defer="">(function(){var g=this;function h(b,d){var a=b.split("."),c=g;a[0]in c||!c.execScript||c.execScript("var "+a[0]);for(var e;a.length&&(e=a.shift());)a.length||void 0===d?c[e]?c=c[e]:c=c[e]={}:c[e]=d};function l(b){var d=b.length;if(0<d){for(var a=Array(d),c=0;c<d;c++)a[c]=b[c];return a}return[]};function m(b){var d=window;if(d.addEventListener)d.addEventListener("load",b,!1);else if(d.attachEvent)d.attachEvent("onload",b);else{var a=d.onload;d.onload=function(){b.call(this);a&&a.call(this)}}};var n;function p(b,d,a,c,e){this.h=b;this.j=d;this.l=a;this.f=e;this.g={height:window.innerHeight||document.documentElement.clientHeight||document.body.clientHeight,width:window.innerWidth||document.documentElement.clientWidth||document.body.clientWidth};this.i=c;this.b={};this.a=[];this.c={}}function q(b,d){var a,c,e=d.getAttribute("data-pagespeed-url-hash");if(a=e&&!(e in b.c))if(0>=d.offsetWidth&&0>=d.offsetHeight)a=!1;else{c=d.getBoundingClientRect();var f=document.body;a=c.top+("pageYOffset"in window?window.pageYOffset:(document.documentElement||f.parentNode||f).scrollTop);c=c.left+("pageXOffset"in window?window.pageXOffset:(document.documentElement||f.parentNode||f).scrollLeft);f=a.toString()+","+c;b.b.hasOwnProperty(f)?a=!1:(b.b[f]=!0,a=a<=b.g.height&&c<=b.g.width)}a&&(b.a.push(e),b.c[e]=!0)}p.prototype.checkImageForCriticality=function(b){b.getBoundingClientRect&&q(this,b)};h("pagespeed.CriticalImages.checkImageForCriticality",function(b){n.checkImageForCriticality(b)});h("pagespeed.CriticalImages.checkCriticalImages",function(){r(n)});function r(b){b.b={};for(var d=["IMG","INPUT"],a=[],c=0;c<d.length;++c)a=a.concat(l(document.getElementsByTagName(d[c])));if(0!=a.length&&a[0].getBoundingClientRect){for(c=0;d=a[c];++c)q(b,d);a="oh="+b.l;b.f&&(a+="&n="+b.f);if(d=0!=b.a.length)for(a+="&ci="+encodeURIComponent(b.a[0]),c=1;c<b.a.length;++c){var e=","+encodeURIComponent(b.a[c]);131072>=a.length+e.length&&(a+=e)}b.i&&(e="&rd="+encodeURIComponent(JSON.stringify(t())),131072>=a.length+e.length&&(a+=e),d=!0);u=a;if(d){c=b.h;b=b.j;var f;if(window.XMLHttpRequest)f=new XMLHttpRequest;else if(window.ActiveXObject)try{f=new ActiveXObject("Msxml2.XMLHTTP")}catch(k){try{f=new ActiveXObject("Microsoft.XMLHTTP")}catch(v){}}f&&(f.open("POST",c+(-1==c.indexOf("?")?"?":"&")+"url="+encodeURIComponent(b)),f.setRequestHeader("Content-Type","application/x-www-form-urlencoded"),f.send(a))}}}function t(){var b={},d=document.getElementsByTagName("IMG");if(0==d.length)return{};var a=d[0];if(!("naturalWidth"in a&&"naturalHeight"in a))return{};for(var c=0;a=d[c];++c){var e=a.getAttribute("data-pagespeed-url-hash");e&&(!(e in b)&&0<a.width&&0<a.height&&0<a.naturalWidth&&0<a.naturalHeight||e in b&&a.width>=b[e].o&&a.height>=b[e].m)&&(b[e]={rw:a.width,rh:a.height,ow:a.naturalWidth,oh:a.naturalHeight})}return b}var u="";h("pagespeed.CriticalImages.getBeaconData",function(){return u});h("pagespeed.CriticalImages.Run",function(b,d,a,c,e,f){var k=new p(b,d,a,e,f);n=k;c&&m(function(){window.setTimeout(function(){r(k)},0)})});})();pagespeed.CriticalImages.Run('/ngx_pagespeed_beacon','https://www.davrous.com/2014/02/19/coding4fun-tutorial-creating-a-3d-webgl-procedural-qrcode-maze-with-babylon-js/?relatedposts_hit=1&relatedposts_origin=972&relatedposts_position=0','AGKDfx0dbO',true,false,'4AHqUVEDqGc');</script><img src="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/xqrmaze.jpg" class="attachment-oblique-single-thumb size-oblique-single-thumb wp-post-image" alt="" srcset="https://www.davrous.com/wp-content/uploads/2014/02/qrmaze.jpg 800w, https://www.davrous.com/wp-content/uploads/2014/02/qrmaze-300x188.jpg 300w, https://www.davrous.com/wp-content/uploads/2014/02/qrmaze-768x480.jpg 768w, https://www.davrous.com/wp-content/uploads/2014/02/qrmaze-370x231.jpg 370w" sizes="(max-width: 800px) 100vw, 800px" data-pagespeed-url-hash="1454303919" onload="pagespeed.CriticalImages.checkImageForCriticality(this);" height="500" width="800">		</div>	
+			
+
+	<div class="entry-content">
+		<p>In this tutorial, you should have a lot of fun. You’ll learn how to <strong>create a 3D Maze using Babylon.js/WebGL based on a dynamically generated QR Code</strong>! This is based on a demo I’ve written for our big annual French conference named <a href="http://www.mstechdays.fr/" target="_blank">Techdays</a> 2014 and more specifically for our famous <a href="http://www.microsoft.com/france/mstechdays/programmes/2014/fiche-session.aspx?ID=de74fb88-848a-4461-ab39-f8342f26ff3d" target="_blank">Coding4Fun session</a>.
+ The idea was to create a maze for the one you love during the 
+Valentine’s Day. Indeed, isn’t it cool to create a 3D procedural maze in
+ the name for your girlfriend/wife? <img class="wlEmoticon wlEmoticon-openmouthedsmile" style="border-style: none;" src="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/8741.bin" alt="Rire" data-pagespeed-url-hash="4030370125" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"></p>
+<p>Yes, this is our famous geeks’ touch in action my friend!</p>
+<p>The name of this demo is “<i><strong><span style="color: #800000;">Le labyrinthe de l’amour</span></strong></i>”. (The love maze). I’ve kept it in French as we all know that Paris is the city of love!</p>
+<p>Here is a video of the demo in action:</p>
+<p><div style="padding-top: 56.25%;" class="fluid-width-video-wrapper"><iframe id="fitvid923401" src="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/1GP2ndq2FSI.html" allowfullscreen="allowfullscreen" frameborder="0"></iframe></div></p>
+<p>To launch &amp; test the final result, click on the below image:</p>
+<p><a href="http://david.blob.core.windows.net/techdays2014/lovemaze/index.html" target="_blank"><img style="padding-top: 0px; padding-left: 0px; padding-right: 0px; border-width: 0px;" title="LLDLA" src="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/7271.bin" alt="LLDLA" data-pagespeed-url-hash="2124857506" onload="pagespeed.CriticalImages.checkImageForCriticality(this);" border="0" height="253" width="450"></a><br>
+<em><u>Logo Credits:</u> <a href="http://blogs.msdn.com/b/designmichel/">Michel Rousseau</a></em></p>
+<p>Or simply click here: <a href="http://david.blob.core.windows.net/techdays2014/lovemaze/index.html" target="_blank">Launch Le labyrinthe de l’amour</a>.</p>
+<p>Then, enter the name of your girlfriend and click “<strong><em>Create</em></strong>”.
+ You’ll be able to move into the maze dedicated to your beloved using 
+the arrow keys &amp; mouse. Press the “space” key to launch a specific 
+camera’s animation, and you’ll be able to view the <strong>QRCode</strong>. Flash it using your smartphone and you should see “<em>[NameOfYourGirlFriend], I love you!</em>”. Your girlfriend should be impressed. <img src="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/1f609.svg" alt="😉" class="emoji" draggable="false"> It’s much better than flowers or chocolates to my point of view!</p>
+<p>You’ll also notice also that if you click on the “isolated cube”, it will throw them into space. I’ve setup the <strong>physics engine</strong>
+ on them to add a dramatic moment. Stay calm! Thanks to the 30% error 
+correction algorithm, you’ll still be able to flash QR Code most of the 
+time. <img src="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/1f609.svg" alt="😉" class="emoji" draggable="false"></p>
+<h2>Pre-requisites</h2>
+<p>To be able to follow this tutorial, it’s better if you first read the following tutorials/articles/wiki:</p>
+<p>– Download the last version Babylon.js: and cannon.js: <a title="https://github.com/BabylonJS/Babylon.js" href="https://github.com/BabylonJS/Babylon.js">https://github.com/BabylonJS/Babylon.js</a> &amp; <a title="http://schteppe.github.io/cannon.js/" href="http://schteppe.github.io/cannon.js/">http://schteppe.github.io/cannon.js/</a><br>
+– Learn about materials:&nbsp; <a title="http://blogs.msdn.com/b/eternalcoding/archive/2013/07/01/babylon-js-unleash-the-standardmaterial-for-your-babylon-js-game.aspx" href="http://blogs.msdn.com/b/eternalcoding/archive/2013/07/01/babylon-js-unleash-the-standardmaterial-for-your-babylon-js-game.aspx">the StandardMaterial for your babylon.js game</a> &amp; <a title="https://github.com/BabylonJS/Babylon.js/wiki/04-Materials" href="https://github.com/BabylonJS/Babylon.js/wiki/04-Materials">04 Materials</a><br>
+– Learn about lights: <a title="http://blogs.msdn.com/b/eternalcoding/archive/2013/07/08/babylon-js-using-lights-in-your-babylon-js-game.aspx" href="http://blogs.msdn.com/b/eternalcoding/archive/2013/07/08/babylon-js-using-lights-in-your-babylon-js-game.aspx">Using lights in your babylon.js game</a><br>
+– Learn about basic meshes like boxes: <a title="https://github.com/BabylonJS/Babylon.js/wiki/02-Basic-elements" href="https://github.com/BabylonJS/Babylon.js/wiki/02-Basic-elements">02 Basic elements</a><br>
+– Learn about skyboxes: <a title="https://github.com/BabylonJS/Babylon.js/wiki/15-Environment" href="https://github.com/BabylonJS/Babylon.js/wiki/15-Environment">15 Environment</a><br>
+– Learn about animations: <a title="https://github.com/BabylonJS/Babylon.js/wiki/07-Animation" href="https://github.com/BabylonJS/Babylon.js/wiki/07-Animation">07-Animation</a><br>
+– See how to enable physics: <a title="http://blogs.msdn.com/b/eternalcoding/archive/2013/12/19/create-wonderful-interactive-games-for-the-web-using-webgl-and-a-physics-engine-babylon-js-amp-cannon-js.aspx" href="http://blogs.msdn.com/b/eternalcoding/archive/2013/12/19/create-wonderful-interactive-games-for-the-web-using-webgl-and-a-physics-engine-babylon-js-amp-cannon-js.aspx">Using webgl and a physics engine (babylon.js &amp; cannon.js)</a></p>
+<p>Even, if I’ll briefly re-explain some of the concepts.</p>
+<p>To generate the QRCode, we’re going also to use an existing very cool library named <strong><u>qrcode.js</u></strong> created by <a href="https://twitter.com/jerome_etienne">Jerome Etienne</a> and available on github: <a href="http://jeromeetienne.github.com/jquery-qrcode/">http://jeromeetienne.github.com/jquery-qrcode/</a></p>
+<p>This tutorial is just a combination of all these resources! <img class="wlEmoticon wlEmoticon-winkingsmile" style="border-style: none;" src="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/3113.bin" alt="Clignement d'œil" data-pagespeed-url-hash="551475796" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"></p>
+<h2>Step 1: creating our playground</h2>
+<p>Create a web project using your favorite tool (mine is <a href="http://www.visualstudio.com/en-us/products/visual-studio-express-vs.aspx">Visual Studio 2013</a>) on your favorite web server.</p>
+<p>Create a new “<strong><em>index.html</em></strong>” file at the root of the project and put this code inside it:</p>
+<pre class="code"><span style="color: blue;">&lt;</span><span style="color: maroon;">!DOCTYPE </span><span style="color: red;">html</span><span style="color: blue;">&gt;
+&lt;</span><span style="color: maroon;">html</span><span style="color: blue;">&gt;
+&lt;</span><span style="color: maroon;">head</span><span style="color: blue;">&gt;
+    &lt;</span><span style="color: maroon;">title</span><span style="color: blue;">&gt;</span><span style="color: black;">Babylon.js - Coding4fun - 3D QRCode Maze</span><span style="color: blue;">&lt;/</span><span style="color: maroon;">title</span><span style="color: blue;">&gt;
+    &lt;</span><span style="color: maroon;">link </span><span style="color: red;">href</span><span style="color: blue;">="css/main.css" </span><span style="color: red;">rel</span><span style="color: blue;">="stylesheet" /&gt;
+    &lt;</span><span style="color: maroon;">script </span><span style="color: red;">src</span><span style="color: blue;">="scripts/qrcode.js"&gt;&lt;/</span><span style="color: maroon;">script</span><span style="color: blue;">&gt;
+    &lt;</span><span style="color: maroon;">script </span><span style="color: red;">src</span><span style="color: blue;">="scripts/cannon.js"&gt;&lt;/</span><span style="color: maroon;">script</span><span style="color: blue;">&gt;
+    &lt;</span><span style="color: maroon;">script </span><span style="color: red;">src</span><span style="color: blue;">="scripts/babylon.js"&gt;&lt;/</span><span style="color: maroon;">script</span><span style="color: blue;">&gt;
+    &lt;</span><span style="color: maroon;">script </span><span style="color: red;">src</span><span style="color: blue;">="scripts/coding4fun.js"&gt;&lt;/</span><span style="color: maroon;">script</span><span style="color: blue;">&gt;
+&lt;/</span><span style="color: maroon;">head</span><span style="color: blue;">&gt;
+&lt;</span><span style="color: maroon;">body</span><span style="color: blue;">&gt;
+    &lt;</span><span style="color: maroon;">canvas </span><span style="color: red;">id</span><span style="color: blue;">="canvas" </span><span style="color: red;">class</span><span style="color: blue;">="offScreen"&gt;&lt;/</span><span style="color: maroon;">canvas</span><span style="color: blue;">&gt;
+&lt;/</span><span style="color: maroon;">body</span><span style="color: blue;">&gt;
+&lt;/</span><span style="color: maroon;">html</span><span style="color: blue;">&gt;</span></pre>
+<p>Create a “<strong><em>scripts</em></strong>” folder and put the 3 library you have downloaded in the pre-requisites: <strong><em>babylon.js</em></strong>, <strong><em>cannon.js</em></strong> &amp;<strong><em> qrcode.js</em></strong>.</p>
+<p>Create a “<strong><em>css</em></strong>” folder and put a “<strong><em>main.css</em></strong>” file into it with the following content:</p>
+<pre class="code"><span style="color: maroon;">html</span><span style="color: black;">, </span><span style="color: maroon;">body</span><span style="color: black;">, </span><span style="color: maroon;">#canvas </span><span style="color: black;">{
+    </span><span style="color: red;">width</span><span style="color: black;">: </span><span style="color: blue;">100%</span><span style="color: black;">;
+    </span><span style="color: red;">height</span><span style="color: black;">: </span><span style="color: blue;">100%</span><span style="color: black;">;
+    </span><span style="color: red;">padding</span><span style="color: black;">: </span><span style="color: blue;">0</span><span style="color: black;">;
+    </span><span style="color: red;">margin</span><span style="color: black;">: </span><span style="color: blue;">0</span><span style="color: black;">;
+    </span><span style="color: red;">overflow</span><span style="color: black;">: </span><span style="color: blue;">hidden</span><span style="color: black;">;
+    </span><span style="color: red;">touch-action</span><span style="color: black;">: </span><span style="color: blue;">none</span><span style="color: black;">;
+}</span></pre>
+<p>Download the “<strong><em>textures</em></strong>” folder from here: <a title="http://david.blob.core.windows.net/techdays2014/lovemaze/textures.zip" href="http://david.blob.core.windows.net/techdays2014/lovemaze/textures.zip">textures.zip</a> and add it to your web project resources. These are the assets we’re going to use for this tutorial.</p>
+<p>Create a “<strong><em>coding4fun.js</em></strong>” file into “<strong><em>scripts</em></strong>” and put this base of code into it:</p>
+<pre class="code"><span style="color: green;">/// &lt;reference path="babylon.js" /&gt;
+
+</span><span style="color: #a31515;">"use strict"</span><span style="color: black;">;
+
+</span><span style="color: green;">// Size of a cube/block
+</span><span style="color: blue;">var </span><span style="color: black;">BLOCK_SIZE = 8;
+</span><span style="color: green;">// Are we inside the maze or looking at the QR Code in bird view?
+</span><span style="color: blue;">var </span><span style="color: black;">QRCodeView = </span><span style="color: blue;">false</span><span style="color: black;">;
+</span><span style="color: blue;">var </span><span style="color: black;">freeCamera, canvas, engine, lovescene;
+</span><span style="color: blue;">var </span><span style="color: black;">camPositionInLabyrinth, camRotationInLabyrinth;
+
+</span><span style="color: blue;">function </span><span style="color: black;">createQRCodeMaze(nameOfYourGirlFriend) {
+    </span><span style="color: green;">//number of modules count or cube in width/height
+    </span><span style="color: blue;">var </span><span style="color: black;">mCount = 33;
+
+    </span><span style="color: blue;">var </span><span style="color: black;">scene = </span><span style="color: blue;">new </span><span style="color: black;">BABYLON.Scene(engine);
+    scene.gravity = </span><span style="color: blue;">new </span><span style="color: black;">BABYLON.Vector3(0, -0.8, 0);
+    scene.collisionsEnabled = </span><span style="color: blue;">true</span><span style="color: black;">;
+
+    freeCamera = </span><span style="color: blue;">new </span><span style="color: black;">BABYLON.FreeCamera(</span><span style="color: #a31515;">"free"</span><span style="color: black;">, </span><span style="color: blue;">new </span><span style="color: black;">BABYLON.Vector3(0, 5, 0), scene);
+    freeCamera.minZ = 1;
+    freeCamera.checkCollisions = </span><span style="color: blue;">true</span><span style="color: black;">;
+    freeCamera.applyGravity = </span><span style="color: blue;">true</span><span style="color: black;">;
+    freeCamera.ellipsoid = </span><span style="color: blue;">new </span><span style="color: black;">BABYLON.Vector3(1, 1, 1);
+
+    </span><span style="color: green;">// Ground
+    </span><span style="color: blue;">var </span><span style="color: black;">groundMaterial = </span><span style="color: blue;">new </span><span style="color: black;">BABYLON.StandardMaterial(</span><span style="color: #a31515;">"groundMat"</span><span style="color: black;">, scene);
+    groundMaterial.emissiveTexture = </span><span style="color: blue;">new </span><span style="color: black;">BABYLON.Texture(</span><span style="color: #a31515;">"textures/arroway.de_tiles-35_d100.jpg"</span><span style="color: black;">, scene);
+    groundMaterial.emissiveTexture.uScale = mCount;
+    groundMaterial.emissiveTexture.vScale = mCount;
+    groundMaterial.bumpTexture = </span><span style="color: blue;">new </span><span style="color: black;">BABYLON.Texture(</span><span style="color: #a31515;">"textures/arroway.de_tiles-35_b010.jpg"</span><span style="color: black;">, scene);
+    groundMaterial.bumpTexture.uScale = mCount;
+    groundMaterial.bumpTexture.vScale = mCount;
+    groundMaterial.specularTexture = </span><span style="color: blue;">new </span><span style="color: black;">BABYLON.Texture(</span><span style="color: #a31515;">"textures/arroway.de_tiles-35_s100-g100-r100.jpg"</span><span style="color: black;">, scene);
+    groundMaterial.specularTexture.uScale = mCount;
+    groundMaterial.specularTexture.vScale = mCount;
+
+    </span><span style="color: blue;">var </span><span style="color: black;">ground = BABYLON.Mesh.CreateGround(</span><span style="color: #a31515;">"ground"</span><span style="color: black;">, (mCount + 2) * BLOCK_SIZE, 
+                                                     (mCount + 2) * BLOCK_SIZE, 
+                                                      1, scene, </span><span style="color: blue;">false</span><span style="color: black;">);
+    ground.material = groundMaterial;
+    ground.checkCollisions = </span><span style="color: blue;">true</span><span style="color: black;">;
+
+    </span><span style="color: green;">//Skybox
+    </span><span style="color: blue;">var </span><span style="color: black;">skybox = BABYLON.Mesh.CreateBox(</span><span style="color: #a31515;">"skyBox"</span><span style="color: black;">, 800.0, scene);
+    </span><span style="color: blue;">var </span><span style="color: black;">skyboxMaterial = </span><span style="color: blue;">new </span><span style="color: black;">BABYLON.StandardMaterial(</span><span style="color: #a31515;">"skyBox"</span><span style="color: black;">, scene);
+    skyboxMaterial.backFaceCulling = </span><span style="color: blue;">false</span><span style="color: black;">;
+    skyboxMaterial.reflectionTexture = </span><span style="color: blue;">new </span><span style="color: black;">BABYLON.CubeTexture(</span><span style="color: #a31515;">"textures/skybox"</span><span style="color: black;">, scene);
+    skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
+    skyboxMaterial.diffuseColor = </span><span style="color: blue;">new </span><span style="color: black;">BABYLON.Color3(0, 0, 0);
+    skyboxMaterial.specularColor = </span><span style="color: blue;">new </span><span style="color: black;">BABYLON.Color3(0, 0, 0);
+    skybox.material = skyboxMaterial;
+
+    </span><span style="color: green;">//At Last, add some lights to our scene
+    </span><span style="color: blue;">var </span><span style="color: black;">light0 = </span><span style="color: blue;">new </span><span style="color: black;">BABYLON.PointLight(</span><span style="color: #a31515;">"pointlight0"</span><span style="color: black;">, </span><span style="color: blue;">new </span><span style="color: black;">BABYLON.Vector3(28, 78, 385), scene);
+    light0.diffuse = </span><span style="color: blue;">new </span><span style="color: black;">BABYLON.Color3(0.5137254901960784, 0.2117647058823529, 0.0941176470588235);
+    light0.intensity = 0.2;
+
+    </span><span style="color: blue;">var </span><span style="color: black;">light1 = </span><span style="color: blue;">new </span><span style="color: black;">BABYLON.PointLight(</span><span style="color: #a31515;">"pointlight1"</span><span style="color: black;">, </span><span style="color: blue;">new </span><span style="color: black;">BABYLON.Vector3(382, 96, 4), scene);
+    light1.diffuse = </span><span style="color: blue;">new </span><span style="color: black;">BABYLON.Color3(1, 0.7333333333333333, 0.3568627450980392);
+    light1.intensity = 0.2;
+
+    </span><span style="color: green;">//TO DO: create the labyrinth
+
+    </span><span style="color: blue;">return </span><span style="color: black;">scene;
+};
+
+window.onload = </span><span style="color: blue;">function </span><span style="color: black;">() {
+    canvas = document.getElementById(</span><span style="color: #a31515;">"canvas"</span><span style="color: black;">);
+
+    </span><span style="color: blue;">if </span><span style="color: black;">(!BABYLON.Engine.isSupported()) {
+        window.alert(</span><span style="color: #a31515;">'Browser not supported'</span><span style="color: black;">);
+    } </span><span style="color: blue;">else </span><span style="color: black;">{
+        engine = </span><span style="color: blue;">new </span><span style="color: black;">BABYLON.Engine(canvas, </span><span style="color: blue;">true</span><span style="color: black;">);
+
+        window.addEventListener(</span><span style="color: #a31515;">"resize"</span><span style="color: black;">, </span><span style="color: blue;">function </span><span style="color: black;">() {
+            engine.resize();
+        });
+
+        lovescene = createQRCodeMaze(</span><span style="color: #a31515;">"Jane Doe"</span><span style="color: black;">);
+        </span><span style="color: green;">// Enable keyboard/mouse controls on the scene (FPS like mode)
+        </span><span style="color: black;">lovescene.activeCamera.attachControl(canvas);
+
+        engine.runRenderLoop(</span><span style="color: blue;">function </span><span style="color: black;">() {
+            lovescene.render();
+        });
+    }
+};</span></pre>
+<p>Well, the code should be relatively straightforward and 
+self-explicit. We’re creating a ground and enabling collisions &amp; 
+gravity on the free camera. You can then move on the ground without 
+flying into the air or falling though the ground. We’re also creating a 
+skybox to create our universe surrounding us as well as 2 lights with 
+colors taken from the skybox.</p>
+<p>You can test this first scene here in your WebGL browser: <a title="http://david.blob.core.windows.net/techdays2014/lovelabyrinth/step3/index.html" href="http://david.blob.core.windows.net/techdays2014/lovemaze/step1/index.html">Love Maze – Step 1</a></p>
+<p>It’s currently a simple &amp; boring scene. Let’s add some fun to it.</p>
+<h2>Step 2: it’s all about cubes</h2>
+<p>Our maze is going to be built from a set of simple cubes. <strong>1 cube will be associated to 1 dark pixel of the QR Code</strong>.</p>
+<p>But let’s first create a unique simple cube. Add this code after the “TODO”:</p>
+<pre class="code"><span style="color: green;">// The position of our cube:
+</span><span style="color: blue;">var </span><span style="color: black;">row = 15;
+</span><span style="color: blue;">var </span><span style="color: black;">col = 20;
+
+</span><span style="color: blue;">var </span><span style="color: black;">cubeWallMaterial = </span><span style="color: blue;">new </span><span style="color: black;">BABYLON.StandardMaterial(</span><span style="color: #a31515;">"cubeWalls"</span><span style="color: black;">, scene);
+cubeWallMaterial.emissiveTexture = </span><span style="color: blue;">new </span><span style="color: black;">BABYLON.Texture(</span><span style="color: #a31515;">"textures/masonry-wall-texture.jpg"</span><span style="color: black;">, scene);
+cubeWallMaterial.bumpTexture = </span><span style="color: blue;">new </span><span style="color: black;">BABYLON.Texture(</span><span style="color: #a31515;">"textures/masonry-wall-bump-map.jpg"</span><span style="color: black;">, scene);
+cubeWallMaterial.specularTexture = </span><span style="color: blue;">new </span><span style="color: black;">BABYLON.Texture(</span><span style="color: #a31515;">"textures/masonry-wall-normal-map.jpg"</span><span style="color: black;">, scene);
+
+</span><span style="color: blue;">var </span><span style="color: black;">mainCube = BABYLON.Mesh.CreateBox(</span><span style="color: #a31515;">"mainCube"</span><span style="color: black;">, BLOCK_SIZE, scene);
+mainCube.material = cubeWallMaterial;
+mainCube.checkCollisions = </span><span style="color: blue;">true</span><span style="color: black;">;
+mainCube.position = </span><span style="color: blue;">new </span><span style="color: black;">BABYLON.Vector3(BLOCK_SIZE / 2 + (row - (mCount / 2)) * BLOCK_SIZE, BLOCK_SIZE / 2,
+                                        BLOCK_SIZE / 2 + (col - (mCount / 2)) * BLOCK_SIZE);</span></pre>
+<p>You’ll see this cube and by moving the camera, you shouldn’t be able to go through thanks to the <strong>native collisions engine embedded into babylon.js</strong>:</p>
+<p><a href="https://msdnshared.blob.core.windows.net/media/MSDNBlogsFS/prod.evol.blogs.msdn.com/CommunityServer.Blogs.Components.WeblogFiles/00/00/01/10/46/metablogapi/8546.image_562F607E.png"><img style="padding-top: 0px; padding-left: 0px; padding-right: 0px; border-width: 0px;" title="image" src="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/0407.bin" alt="image" data-pagespeed-url-hash="3368880702" onload="pagespeed.CriticalImages.checkImageForCriticality(this);" border="0" height="295" width="400"></a></p>
+<p>But if you’re disabling the gravity on the freeCamera object and 
+you’re moving the camera above the cube, you’ll see that its top doesn’t
+ have the proper material set yet for our future QR Code recognition 
+algorithm:</p>
+<p><a href="https://msdnshared.blob.core.windows.net/media/MSDNBlogsFS/prod.evol.blogs.msdn.com/CommunityServer.Blogs.Components.WeblogFiles/00/00/01/10/46/metablogapi/3480.image_78AE31FD.png"><img style="padding-top: 0px; padding-left: 0px; padding-right: 0px; border-width: 0px;" title="image" src="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/0576.bin" alt="image" data-pagespeed-url-hash="3317241402" onload="pagespeed.CriticalImages.checkImageForCriticality(this);" border="0" height="295" width="400"></a></p>
+<p>We need to have <strong>a different material for the top</strong>. For that, we’re going to use the <strong>multi-materials</strong> approach of babylon.js: <a title="http://blogs.msdn.com/b/eternalcoding/archive/2013/07/10/babylon-js-using-multi-materials.aspx" href="http://blogs.msdn.com/b/eternalcoding/archive/2013/07/10/babylon-js-using-multi-materials.aspx">Using multi-materials</a> using this code:</p>
+<pre class="code"><span style="color: blue;">var </span><span style="color: black;">row = 15;
+</span><span style="color: blue;">var </span><span style="color: black;">col = 20;
+
+</span><span style="color: blue;">var </span><span style="color: black;">cubeTopMaterial = </span><span style="color: blue;">new </span><span style="color: black;">BABYLON.StandardMaterial(</span><span style="color: #a31515;">"cubeTop"</span><span style="color: black;">, scene);
+cubeTopMaterial.emissiveColor = </span><span style="color: blue;">new </span><span style="color: black;">BABYLON.Color3(0.1, 0.1, 0.15);
+
+</span><span style="color: blue;">var </span><span style="color: black;">cubeWallMaterial = </span><span style="color: blue;">new </span><span style="color: black;">BABYLON.StandardMaterial(</span><span style="color: #a31515;">"cubeWalls"</span><span style="color: black;">, scene);
+cubeWallMaterial.emissiveTexture = </span><span style="color: blue;">new </span><span style="color: black;">BABYLON.Texture(</span><span style="color: #a31515;">"textures/masonry-wall-texture.jpg"</span><span style="color: black;">, scene);
+cubeWallMaterial.bumpTexture = </span><span style="color: blue;">new </span><span style="color: black;">BABYLON.Texture(</span><span style="color: #a31515;">"textures/masonry-wall-bump-map.jpg"</span><span style="color: black;">, scene);
+cubeWallMaterial.specularTexture = </span><span style="color: blue;">new </span><span style="color: black;">BABYLON.Texture(</span><span style="color: #a31515;">"textures/masonry-wall-normal-map.jpg"</span><span style="color: black;">, scene);
+
+</span><span style="color: blue;">var </span><span style="color: black;">cubeMultiMat = </span><span style="color: blue;">new </span><span style="color: black;">BABYLON.MultiMaterial(</span><span style="color: #a31515;">"cubeMulti"</span><span style="color: black;">, scene);
+cubeMultiMat.subMaterials.push(cubeTopMaterial);
+cubeMultiMat.subMaterials.push(cubeWallMaterial);
+
+</span><span style="color: blue;">var </span><span style="color: black;">soloCube = BABYLON.Mesh.CreateBox(</span><span style="color: #a31515;">"mainCube"</span><span style="color: black;">, BLOCK_SIZE, scene);
+soloCube.subMeshes = [];
+soloCube.subMeshes.push(</span><span style="color: blue;">new </span><span style="color: black;">BABYLON.SubMesh(0, 0, 4, 0, 6, soloCube));
+soloCube.subMeshes.push(</span><span style="color: blue;">new </span><span style="color: black;">BABYLON.SubMesh(1, 4, 20, 6, 30, soloCube));
+
+</span><span style="color: green;">// same as soloCube.rotation.x = -Math.PI / 2; 
+// but cannon.js needs rotation to be set via Quaternion
+</span><span style="color: black;">soloCube.rotationQuaternion = BABYLON.Quaternion.RotationYawPitchRoll(0, -Math.PI / 2, 0);
+soloCube.material = cubeMultiMat;
+soloCube.checkCollisions = </span><span style="color: blue;">true</span><span style="color: black;">;
+soloCube.position = </span><span style="color: blue;">new </span><span style="color: black;">BABYLON.Vector3(BLOCK_SIZE / 2 + (row - (mCount / 2)) * BLOCK_SIZE, BLOCK_SIZE / 2,
+                                        BLOCK_SIZE / 2 + (col - (mCount / 2)) * BLOCK_SIZE);</span></pre>
+<p><strong><u>Note:</u></strong> as you can read, I’m turning the cube using <strong>Quaternion</strong> rather directly working on<strong> rotation.x</strong>. It’s because <strong>cannon.js</strong>
+ needs to have the information set this way. If you’re setting it the 
+other way, cannon.js will not take into account your rotation 
+transformations. Oh yes, and I’m doing a rotation of the cube because 
+otherwise the specific face with the top material associated is pointing
+ down.</p>
+<p>And here is the result:</p>
+<p><a href="http://david.blob.core.windows.net/techdays2014/lovelabyrinth/step2/index.html" target="_blank"><img style="padding-top: 0px; padding-left: 0px; padding-right: 0px; border-width: 0px;" title="image" src="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/1200.bin" alt="image" data-pagespeed-url-hash="2146833606" onload="pagespeed.CriticalImages.checkImageForCriticality(this);" border="0" height="295" width="400"></a></p>
+<p>Test the result of this step 2 here: <a title="http://david.blob.core.windows.net/techdays2014/lovelabyrinth/step3/index.html" href="http://david.blob.core.windows.net/techdays2014/lovemaze/step2/index.html">Love Maze – Step 2</a></p>
+<h2>Step 3: creating the 3D QRCode maze</h2>
+<p>We’re now going to call the qrcode.js library to build the QR Code 
+based on a specific text. This library normally needs a div to inject 
+into. We’ll give it a fake div element. Then, it builds the QR Code and 
+draw the output into the div. I was more interested in the<strong> 2-D array</strong> built inside it. This <strong>array represents the complete QR Code by a series of rather dark or white pixels</strong>.</p>
+<p>In conclusion, replace in your code the <em>mCount</em> variable declaration by this:</p>
+<pre class="code"><span style="color: green;">// It needs a HTML element to work with
+</span><span style="color: blue;">var </span><span style="color: black;">qrcode = </span><span style="color: blue;">new </span><span style="color: black;">QRCode(document.createElement(</span><span style="color: #a31515;">"div"</span><span style="color: black;">), { width: 400, height: 400 });
+
+qrcode.makeCode(nameOfYourGirlFriend + </span><span style="color: #a31515;">", I love you!"</span><span style="color: black;">);
+
+</span><span style="color: green;">// needed to set the proper size of the playground
+</span><span style="color: blue;">var </span><span style="color: black;">mCount = qrcode._oQRCode.moduleCount;</span></pre>
+<p>Then, here is the loop creating the complete maze:</p>
+<pre class="code"><span style="color: blue;">for </span><span style="color: black;">(</span><span style="color: blue;">var </span><span style="color: black;">row = 0; row &lt; mCount; row++) {
+    </span><span style="color: blue;">for </span><span style="color: black;">(</span><span style="color: blue;">var </span><span style="color: black;">col = 0; col &lt; mCount; col++) {
+        </span><span style="color: blue;">if </span><span style="color: black;">(qrcode._oQRCode.isDark(row, col)) {
+            </span><span style="color: blue;">var </span><span style="color: black;">soloCube = BABYLON.Mesh.CreateBox(</span><span style="color: #a31515;">"mainCube"</span><span style="color: black;">, BLOCK_SIZE, scene);
+            soloCube.subMeshes = [];
+            soloCube.subMeshes.push(</span><span style="color: blue;">new </span><span style="color: black;">BABYLON.SubMesh(0, 0, 4, 0, 6, soloCube));
+            soloCube.subMeshes.push(</span><span style="color: blue;">new </span><span style="color: black;">BABYLON.SubMesh(1, 4, 20, 6, 30, soloCube));
+            </span><span style="color: green;">// same as soloCube.rotation.x = -Math.PI / 2; 
+            // but cannon.js needs rotation to be set via Quaternion
+            </span><span style="color: black;">soloCube.rotationQuaternion = BABYLON.Quaternion.RotationYawPitchRoll(0, -Math.PI / 2, 0);
+            soloCube.material = cubeMultiMat;
+            soloCube.checkCollisions = </span><span style="color: blue;">true</span><span style="color: black;">;
+            soloCube.position = </span><span style="color: blue;">new </span><span style="color: black;">BABYLON.Vector3(BLOCK_SIZE / 2 + (row - (mCount / 2)) * BLOCK_SIZE,
+                                                    BLOCK_SIZE / 2,
+                                                    BLOCK_SIZE / 2 + (col - (mCount / 2)) * BLOCK_SIZE);
+        }
+    }
+}
+
+</span><span style="color: blue;">var </span><span style="color: black;">x = BLOCK_SIZE / 2 + (7 - (mCount / 2)) * BLOCK_SIZE;
+</span><span style="color: blue;">var </span><span style="color: black;">y = BLOCK_SIZE / 2 + (1 - (mCount / 2)) * BLOCK_SIZE;
+freeCamera.position = </span><span style="color: blue;">new </span><span style="color: black;">BABYLON.Vector3(x, 5, y);</span></pre>
+<p>I’m setting the camera position to a specific place in the QR Code I know it will always be empty.</p>
+<p><a href="http://david.blob.core.windows.net/techdays2014/lovelabyrinth/step3/index.html" target="_blank"><img style="padding-top: 0px; padding-left: 0px; padding-right: 0px; border-width: 0px;" title="image" src="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/2656.bin" alt="image" data-pagespeed-url-hash="3997125774" onload="pagespeed.CriticalImages.checkImageForCriticality(this);" border="0" height="295" width="400"></a></p>
+<p>Test the result of this step 3 here: <a title="http://david.blob.core.windows.net/techdays2014/lovelabyrinth/step3/index.html" href="http://david.blob.core.windows.net/techdays2014/lovemaze/step3/index.html">Love Maze – Step 3</a></p>
+<h2>Step 4: optimization with cloning</h2>
+<p>Currently, in our loop, we’re creating the very same object up to 500
+ times. A better approach is to create the geometry once and then clone 
+it. It’s better for the memory consumption and for the performance. The 
+CPU will send a unique geometry to the GPU. GPU will then clone this 
+geometry as needed without asking more information from the CPU. It 
+could be an important point especially on mobile devices. It could also 
+have an impact on the rendering performance. In my case, my base 
+geometry (a cube) is far too simple to have an immediate performance 
+boost just thanks to cloning. But this doesn’t mean you shouldn’t do it 
+every time you will duplicate the very same mesh.</p>
+<p>More interestingly, during a game, it’s also <strong>much faster to instantiate a clone</strong>
+ (of an enemy for instance) rather than creating it again from scratch. 
+If you’re spawning a new enemy during your game by creating it without 
+the cloning mechanism, you’ll probably have some fps drops. In 
+conclusion, this is really a <strong>best practice to use cloning if you need to duplicate several times the very same mesh</strong>.</p>
+<p>Here is the code for that:</p>
+<pre class="code"><span style="color: blue;">var </span><span style="color: black;">soloCube = BABYLON.Mesh.CreateBox(</span><span style="color: #a31515;">"mainCube"</span><span style="color: black;">, BLOCK_SIZE, scene);
+soloCube.subMeshes = [];
+soloCube.subMeshes.push(</span><span style="color: blue;">new </span><span style="color: black;">BABYLON.SubMesh(0, 0, 4, 0, 6, soloCube));
+soloCube.subMeshes.push(</span><span style="color: blue;">new </span><span style="color: black;">BABYLON.SubMesh(1, 4, 20, 6, 30, soloCube));
+soloCube.rotationQuaternion = BABYLON.Quaternion.RotationYawPitchRoll(0, -Math.PI / 2, 0);
+soloCube.material = cubeMultiMat;
+soloCube.checkCollisions = </span><span style="color: blue;">true</span><span style="color: black;">;
+soloCube.setEnabled(</span><span style="color: blue;">false</span><span style="color: black;">);
+
+</span><span style="color: blue;">var </span><span style="color: black;">cube;
+
+</span><span style="color: blue;">for </span><span style="color: black;">(</span><span style="color: blue;">var </span><span style="color: black;">row = 0; row &lt; mCount; row++) {
+    </span><span style="color: blue;">for </span><span style="color: black;">(</span><span style="color: blue;">var </span><span style="color: black;">col = 0; col &lt; mCount; col++) {
+        </span><span style="color: blue;">if </span><span style="color: black;">(qrcode._oQRCode.isDark(row, col)) {
+            cube = soloCube.clone(</span><span style="color: #a31515;">"ClonedCube" </span><span style="color: black;">+ row + col);
+            cube.position = </span><span style="color: blue;">new </span><span style="color: black;">BABYLON.Vector3(BLOCK_SIZE / 2 + (row - (mCount / 2)) * BLOCK_SIZE,
+                                                BLOCK_SIZE / 2,
+                                                BLOCK_SIZE / 2 + (col - (mCount / 2)) * BLOCK_SIZE);
+        }
+    }
+}</span></pre>
+<h2>Step 5: performance optimization by merging meshes</h2>
+<p>Maybe you’ll notice than even if we don’t have a lot of triangles 
+currently being displayed, the performance are not stellar. This is 
+because we have a lot of small objects and thus small operations 
+associated to them. We’re then spending too much time between the CPU 
+and the GPU. The CPU is doing a lot of roundtrips with the GPU to send 
+the orders for the 500+ potential cubes to be displayed. It’s much more 
+efficient to send a big mesh from the CPU to the GPU and then ask for 
+specific operations on this big mesh (rotation, scaling, lights, etc.).</p>
+<p>The idea is then to <strong>merge all the generated cubes into a big mesh</strong>. It will really enhance the global rendering performance.</p>
+<p>Let’s <strong>launch the F12 UI Responsiveness tool of IE11</strong> to check the current results before merging meshes:</p>
+<p><a href="https://msdnshared.blob.core.windows.net/media/MSDNBlogsFS/prod.evol.blogs.msdn.com/CommunityServer.Blogs.Components.WeblogFiles/00/00/01/10/46/metablogapi/8551.image_00A73A4A.png"><img style="padding-top: 0px; padding-left: 0px; padding-right: 0px; border-width: 0px;" title="image" src="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/3438.bin" alt="image" data-pagespeed-url-hash="1832084638" onload="pagespeed.CriticalImages.checkImageForCriticality(this);" border="0" height="368" width="640"></a></p>
+<p>The <strong>average fps is around 30 fps</strong>. And the CPU usage reaches 100% which tends to prove that the CPU is doing more work than expected.</p>
+<p>Insert the merging function into your code by copy/pasting it from our wiki: <a title="https://github.com/BabylonJS/Babylon.js/wiki/How-to-merge-meshes" href="https://github.com/BabylonJS/Babylon.js/wiki/How-to-merge-meshes">How to merge meshes</a>.</p>
+<p>And now use this code to generate the optimized maze:</p>
+<pre class="code"><span style="color: blue;">var </span><span style="color: black;">topCube = BABYLON.Mesh.CreatePlane(</span><span style="color: #a31515;">"ground"</span><span style="color: black;">, BLOCK_SIZE, scene, </span><span style="color: blue;">false</span><span style="color: black;">);
+topCube.material = cubeTopMaterial;
+topCube.rotation.x = Math.PI / 2;
+topCube.setEnabled(</span><span style="color: blue;">false</span><span style="color: black;">);
+
+</span><span style="color: blue;">var </span><span style="color: black;">cube, top;
+</span><span style="color: blue;">var </span><span style="color: black;">cubesCollection = [];
+</span><span style="color: blue;">var </span><span style="color: black;">cubesTopCollection = [];
+
+</span><span style="color: blue;">for </span><span style="color: black;">(</span><span style="color: blue;">var </span><span style="color: black;">row = 0; row &lt; mCount; row++) {
+    </span><span style="color: blue;">for </span><span style="color: black;">(</span><span style="color: blue;">var </span><span style="color: black;">col = 0; col &lt; mCount; col++) {
+        </span><span style="color: blue;">if </span><span style="color: black;">(qrcode._oQRCode.isDark(row, col)) {
+            cube = soloCube.clone(</span><span style="color: #a31515;">"ClonedCube" </span><span style="color: black;">+ row + col);
+            cube.position = </span><span style="color: blue;">new </span><span style="color: black;">BABYLON.Vector3(BLOCK_SIZE / 2 + (row - (mCount / 2)) * BLOCK_SIZE,
+                                                BLOCK_SIZE / 2,
+                                                BLOCK_SIZE / 2 + (col - (mCount / 2)) * BLOCK_SIZE);
+
+            top = topCube.clone(</span><span style="color: #a31515;">"TopClonedCube" </span><span style="color: black;">+ row + col);
+            top.position = </span><span style="color: blue;">new </span><span style="color: black;">BABYLON.Vector3(BLOCK_SIZE / 2 + (row - (mCount / 2)) * BLOCK_SIZE,
+                                                BLOCK_SIZE + 0.05,
+                                                BLOCK_SIZE / 2 + (col - (mCount / 2)) * BLOCK_SIZE);
+
+            cubesCollection.push(cube);
+            cubesTopCollection.push(top);
+        }
+    }
+}
+
+</span><span style="color: blue;">var </span><span style="color: black;">maze = mergeMeshes(</span><span style="color: #a31515;">"maze"</span><span style="color: black;">, cubesCollection, scene);
+maze.checkCollisions = </span><span style="color: blue;">true</span><span style="color: black;">;
+maze.material = cubeWallMaterial;
+
+</span><span style="color: blue;">var </span><span style="color: black;">mazeTop = mergeMeshes(</span><span style="color: #a31515;">"mazeTop"</span><span style="color: black;">, cubesTopCollection, scene);
+mazeTop.material = cubeTopMaterial;</span></pre>
+<p><strong><u>Note:</u></strong> as you can see, I’m creating a special 
+merged mesh with some plane elements to put just above the merged cubes.
+ It’s to have a simple solution to handle multi-materials in this case.</p>
+<p>Now, let’s analyze the gain with IE11 F12:</p>
+<p><a href="https://msdnshared.blob.core.windows.net/media/MSDNBlogsFS/prod.evol.blogs.msdn.com/CommunityServer.Blogs.Components.WeblogFiles/00/00/01/10/46/metablogapi/7140.image_2B3FC8CF.png"><img style="padding-top: 0px; padding-left: 0px; padding-right: 0px; border-width: 0px;" title="image" src="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/8507.bin" alt="image" data-pagespeed-url-hash="2909307950" onload="pagespeed.CriticalImages.checkImageForCriticality(this);" border="0" height="368" width="640"></a></p>
+<p>You’ll immediately see that the CPU usage has drop dramatically and we now have an <strong>average fps around 60 fps</strong>.</p>
+<p>Test the result of this step 5 here: <a title="http://david.blob.core.windows.net/techdays2014/lovelabyrinth/step3/index.html" href="http://david.blob.core.windows.net/techdays2014/lovemaze/step5/index.html">Love Maze – Step 5</a></p>
+<p>You can verify the performance boost in your browser/machine with the previous version in <a href="http://david.blob.core.windows.net/techdays2014/lovemaze/step3/index.html">step 3</a>.</p>
+<h2>Step 6: animating the camera</h2>
+<p>To be able to <strong>view the QR Code from the space and flash it with your smartphone</strong>,
+ we need to change the current camera position and rotation to a 
+specific place. Rather than jumping directly to this specific position, <strong>let’s animate the camera </strong>from its current place in the maze to the best position in the space for flashing.</p>
+<p>For that, let’s add this simple function:</p>
+<pre class="code"><span style="color: blue;">var </span><span style="color: black;">animateCameraPositionAndRotation = </span><span style="color: blue;">function </span><span style="color: black;">(freeCamera, fromPosition, toPosition,
+                                                 fromRotation, toRotation) {
+
+    </span><span style="color: blue;">var </span><span style="color: black;">animCamPosition = </span><span style="color: blue;">new </span><span style="color: black;">BABYLON.Animation(</span><span style="color: #a31515;">"animCam"</span><span style="color: black;">, </span><span style="color: #a31515;">"position"</span><span style="color: black;">, 30,
+                              BABYLON.Animation.ANIMATIONTYPE_VECTOR3,
+                              BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
+
+    </span><span style="color: blue;">var </span><span style="color: black;">keysPosition = [];
+    keysPosition.push({
+        frame: 0,
+        value: fromPosition
+    });
+    keysPosition.push({
+        frame: 100,
+        value: toPosition
+    });
+
+    animCamPosition.setKeys(keysPosition);
+
+    </span><span style="color: blue;">var </span><span style="color: black;">animCamRotation = </span><span style="color: blue;">new </span><span style="color: black;">BABYLON.Animation(</span><span style="color: #a31515;">"animCam"</span><span style="color: black;">, </span><span style="color: #a31515;">"rotation"</span><span style="color: black;">, 30,
+                              BABYLON.Animation.ANIMATIONTYPE_VECTOR3,
+                              BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
+
+    </span><span style="color: blue;">var </span><span style="color: black;">keysRotation = [];
+    keysRotation.push({
+        frame: 0,
+        value: fromRotation
+    });
+    keysRotation.push({
+        frame: 100,
+        value: toRotation
+    });
+
+    animCamRotation.setKeys(keysRotation);
+    freeCamera.animations.push(animCamPosition);
+    freeCamera.animations.push(animCamRotation);
+
+    scene.beginAnimation(freeCamera, 0, 100, </span><span style="color: blue;">false</span><span style="color: black;">);
+};</span></pre>
+<p>Let’s now call this function to animate our camera when the user will press the “<strong><em>space</em></strong>” key:</p>
+<pre class="code"><span style="color: black;">window.addEventListener(</span><span style="color: #a31515;">"keydown"</span><span style="color: black;">, </span><span style="color: blue;">function </span><span style="color: black;">(event) {
+    </span><span style="color: blue;">if </span><span style="color: black;">(event.keyCode === 32) {
+        </span><span style="color: blue;">if </span><span style="color: black;">(!QRCodeView) {
+            QRCodeView = </span><span style="color: blue;">true</span><span style="color: black;">;
+            </span><span style="color: green;">// Saving current position &amp; rotation in the maze
+            </span><span style="color: black;">camPositionInLabyrinth = freeCamera.position;
+            camRotationInLabyrinth = freeCamera.rotation;
+            animateCameraPositionAndRotation(freeCamera, freeCamera.position,
+                </span><span style="color: blue;">new </span><span style="color: black;">BABYLON.Vector3(16, 400, 15),
+                freeCamera.rotation,
+                </span><span style="color: blue;">new </span><span style="color: black;">BABYLON.Vector3(1.4912565104551518, -1.5709696842019767,freeCamera.rotation.z));
+        }
+        </span><span style="color: blue;">else </span><span style="color: black;">{
+            QRCodeView = </span><span style="color: blue;">false</span><span style="color: black;">;
+            animateCameraPositionAndRotation(freeCamera, freeCamera.position,
+                camPositionInLabyrinth, freeCamera.rotation, camRotationInLabyrinth);
+        }
+        freeCamera.applyGravity = !QRCodeView;
+    }
+}, </span><span style="color: blue;">false</span><span style="color: black;">);</span></pre>
+<p>Now, launch your code and press the “space” bar, you should obtain this view:</p>
+<p><a href="https://msdnshared.blob.core.windows.net/media/MSDNBlogsFS/prod.evol.blogs.msdn.com/CommunityServer.Blogs.Components.WeblogFiles/00/00/01/10/46/metablogapi/1207.image_5BA3D4FA.png"><img style="padding-top: 0px; padding-left: 0px; padding-right: 0px; border-width: 0px;" title="image" src="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/0334.bin" alt="image" data-pagespeed-url-hash="705908607" onload="pagespeed.CriticalImages.checkImageForCriticality(this);" border="0" height="480" width="586"></a></p>
+<p>Using my Windows Phone native QR Code app, it works! <img class="wlEmoticon wlEmoticon-openmouthedsmile" style="border-style: none;" src="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/8741.bin" alt="Rire" data-pagespeed-url-hash="4030370125" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"></p>
+<p><a href="https://msdnshared.blob.core.windows.net/media/MSDNBlogsFS/prod.evol.blogs.msdn.com/CommunityServer.Blogs.Components.WeblogFiles/00/00/01/10/46/metablogapi/1512.wp_ss_20140218_0004_6B2E6124.png"><img style="padding-top: 0px; padding-left: 0px; padding-right: 0px; border-width: 0px;" title="wp_ss_20140218_0004" src="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/2072.bin" alt="wp_ss_20140218_0004" data-pagespeed-url-hash="3946577826" onload="pagespeed.CriticalImages.checkImageForCriticality(this);" border="0" height="480" width="288"></a></p>
+<h2>Step 7: enabling physics on isolated cubes</h2>
+<p>In this last part of the tutorial, we’re going to see how to <strong>enable some physics on isolated cubes</strong>
+ (cubes without direct neighbors on their left/right/up/down direction).
+ Then, we’ll see how to select a mesh by clicking it and apply some 
+impulse force to throw these isolated cubes in the space.</p>
+<p>First, you need to enable physics on the scene:</p>
+<pre class="code"><span style="color: black;">scene.enablePhysics(</span><span style="color: blue;">new </span><span style="color: black;">BABYLON.Vector3(0, 0, 0));</span></pre>
+<p>In my case, I’m setting a zero gravity as we’re supposed to be in space. Then, you need to <strong>define the various impostor for the ground and the isolated boxes</strong>.</p>
+<p>Enabling physics on our ground:</p>
+<pre class="code"><span style="color: black;">ground.setPhysicsState({ impostor: BABYLON.PhysicsEngine.PlaneImpostor, mass: 0, 
+                         friction: 0.5, restitution: 0.7 });
+</span></pre>
+<p>And here is the new loop checking if the cube is isolated and setting up physics properties on it:</p>
+<pre class="code"><span style="color: blue;">var </span><span style="color: black;">mainCube = BABYLON.Mesh.CreateBox(</span><span style="color: #a31515;">"mainCube"</span><span style="color: black;">, BLOCK_SIZE, scene);
+mainCube.material = cubeWallMaterial;
+mainCube.checkCollisions = </span><span style="color: blue;">true</span><span style="color: black;">;
+mainCube.setEnabled(</span><span style="color: blue;">false</span><span style="color: black;">);
+
+</span><span style="color: blue;">var </span><span style="color: black;">cube, top;
+</span><span style="color: blue;">var </span><span style="color: black;">cubesCollection = [];
+</span><span style="color: blue;">var </span><span style="color: black;">cubesTopCollection = [];
+</span><span style="color: blue;">var </span><span style="color: black;">cubeOnLeft, cubeOnRight, cubeOnUp, cubeOnDown;
+
+</span><span style="color: blue;">for </span><span style="color: black;">(</span><span style="color: blue;">var </span><span style="color: black;">row = 0; row &lt; mCount; row++) {
+    </span><span style="color: blue;">for </span><span style="color: black;">(</span><span style="color: blue;">var </span><span style="color: black;">col = 0; col &lt; mCount; col++) {
+        </span><span style="color: blue;">if </span><span style="color: black;">(qrcode._oQRCode.isDark(row, col)) {
+            </span><span style="color: blue;">var </span><span style="color: black;">cubePosition = </span><span style="color: blue;">new </span><span style="color: black;">BABYLON.Vector3(BLOCK_SIZE / 2 + (row - (mCount / 2)) * BLOCK_SIZE,
+                                                    BLOCK_SIZE / 2,
+                                                    BLOCK_SIZE / 2 + (col - (mCount / 2)) * BLOCK_SIZE);
+
+            cubeOnLeft = cubeOnRight = cubeOnUp = cubeOnDown = </span><span style="color: blue;">false</span><span style="color: black;">;
+            </span><span style="color: blue;">if </span><span style="color: black;">(col &gt; 0) {
+                cubeOnLeft = qrcode._oQRCode.isDark(row, col - 1)
+            }
+            </span><span style="color: blue;">if </span><span style="color: black;">(col &lt; mCount - 1) {
+                cubeOnRight = qrcode._oQRCode.isDark(row, col + 1)
+            }
+            </span><span style="color: blue;">if </span><span style="color: black;">(row &gt; 0) {
+                cubeOnUp = qrcode._oQRCode.isDark(row - 1, col)
+            }
+            </span><span style="color: blue;">if </span><span style="color: black;">(row &lt; mCount - 1) {
+                cubeOnDown = qrcode._oQRCode.isDark(row + 1, col)
+            }
+
+            </span><span style="color: blue;">if </span><span style="color: black;">(cubeOnLeft || cubeOnRight || cubeOnUp || cubeOnDown) {
+                cube = mainCube.clone(</span><span style="color: #a31515;">"Cube" </span><span style="color: black;">+ row + col);
+                cube.position = cubePosition.clone();
+                top = topCube.clone(</span><span style="color: #a31515;">"TopCube" </span><span style="color: black;">+ row + col);
+                top.position = cubePosition.clone();
+                top.position.y = BLOCK_SIZE + 0.05;
+                cubesCollection.push(cube);
+                cubesTopCollection.push(top);
+            }
+            </span><span style="color: blue;">else </span><span style="color: black;">{
+                cube = soloCube.clone(</span><span style="color: #a31515;">"SoloCube" </span><span style="color: black;">+ row + col);
+                cube.position = cubePosition.clone();
+                cube.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 2, 
+                                       friction: 0.4, restitution: 0.3 });
+            }
+        }
+    }
+}</span></pre>
+<p>Finally, we need to send a ray against the scene targeted by the 
+mouse pointer during the mouse down event. If a mesh is selected, we’re 
+applying a force impulse:</p>
+<pre class="code"><span style="color: black;">canvas.addEventListener(</span><span style="color: #a31515;">"mousedown"</span><span style="color: black;">, </span><span style="color: blue;">function </span><span style="color: black;">(evt) {
+    </span><span style="color: blue;">var </span><span style="color: black;">pickResult = scene.pick(evt.clientX, evt.clientY);
+    </span><span style="color: blue;">if </span><span style="color: black;">(pickResult.hit) {
+        </span><span style="color: blue;">var </span><span style="color: black;">dir = pickResult.pickedPoint.subtract(scene.activeCamera.position);
+        dir.normalize();
+        pickResult.pickedMesh.applyImpulse(dir.scale(50), pickResult.pickedPoint);
+    }
+});</span></pre>
+<p>If it’s an isolated cube, it will fly into the space forever! Some cubes could interact between each other’s also.</p>
+<p><a href="http://david.blob.core.windows.net/techdays2014/lovemaze/index.html" target="_blank"><img style="padding-top: 0px; padding-left: 0px; padding-right: 0px; border-width: 0px;" title="image" src="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/2437.bin" alt="image" data-pagespeed-url-hash="40934762" onload="pagespeed.CriticalImages.checkImageForCriticality(this);" border="0" height="344" width="640"></a></p>
+<p>You’ll still be able to flash the QR Code however as I’ve used the 
+default encoding using 30% error correction. Even with some missing 
+flying isolated cube, you can still impressed your girlfriend. <img class="wlEmoticon wlEmoticon-winkingsmile" style="border-style: none;" src="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/3113.bin" alt="Clignement d'œil" data-pagespeed-url-hash="551475796" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"></p>
+<p>That’s all folks!</p>
+<p>You can download the complete source code contained in this ZIP archive: <a title="http://david.blob.core.windows.net/techdays2014/lovemaze/finalcode.zip" href="http://david.blob.core.windows.net/techdays2014/lovemaze/finalcode.zip">finalcode.zip</a></p>
+<p><iframe data-screen-name="davrous" src="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/follow_button.html" title="Twitter Follow Button" style="position: static; visibility: visible; width: 213px; height: 20px;" class="twitter-follow-button twitter-follow-button-rendered" allowtransparency="true" scrolling="no" id="twitter-widget-0" frameborder="0"></iframe><br>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','twitter-wjs');</script></p>
+<div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" data-shared="sharing-twitter-824" class="share-twitter sd-button share-icon no-text" href="https://www.davrous.com/2014/02/19/coding4fun-tutorial-creating-a-3d-webgl-procedural-qrcode-maze-with-babylon-js/?share=twitter&amp;nb=1" target="_blank" title="Click to share on Twitter"><span></span><span class="sharing-screen-reader-text">Click to share on Twitter (Opens in new window)</span></a></li><li class="share-facebook"><a rel="nofollow" data-shared="sharing-facebook-824" class="share-facebook sd-button share-icon no-text" href="https://www.davrous.com/2014/02/19/coding4fun-tutorial-creating-a-3d-webgl-procedural-qrcode-maze-with-babylon-js/?share=facebook&amp;nb=1" target="_blank" title="Click to share on Facebook"><span><span class="share-count">2</span></span><span class="sharing-screen-reader-text">Click to share on Facebook (Opens in new window)<span class="share-count">2</span></span></a></li><li class="share-google-plus-1"><a rel="nofollow" data-shared="sharing-google-824" class="share-google-plus-1 sd-button share-icon no-text" href="https://www.davrous.com/2014/02/19/coding4fun-tutorial-creating-a-3d-webgl-procedural-qrcode-maze-with-babylon-js/?share=google-plus-1&amp;nb=1" target="_blank" title="Click to share on Google+"><span></span><span class="sharing-screen-reader-text">Click to share on Google+ (Opens in new window)</span></a></li><li class="share-end"></li></ul></div></div></div>
+<div style="display: block;" id="jp-relatedposts" class="jp-relatedposts" data-exclude="972">
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+<div class="jp-relatedposts-items jp-relatedposts-items-minimal"><p class="jp-relatedposts-post jp-relatedposts-post0" data-post-id="830" data-post-format="false"><span class="jp-relatedposts-post-title"><a data-position="0" data-origin="824" rel="nofollow" title="Next Game Frontier 2014: videos &amp; content
+
+Microsoft and Samsung have co-organized the first edition of the Next Game Frontier conference, a technical web event purely dedicated to games made with web standards. The initial idea came after a discussion we had with Daniel Glazman from Samsung, David Catuhe and I during Paris Web 2013. &nbsp; Find…" href="https://www.davrous.com/2014/03/20/next-game-frontier-2014-videos-content/" class="jp-relatedposts-post-a">Next Game Frontier 2014: videos &amp; content</a></span><span class="jp-relatedposts-post-date">March 20, 2014</span><span class="jp-relatedposts-post-context">In "English"</span></p><p class="jp-relatedposts-post jp-relatedposts-post1" data-post-id="738" data-post-format="false"><span class="jp-relatedposts-post-title"><a data-position="1" data-origin="824" rel="nofollow" title="Tutorial part 6: learning how to write a 3D software engine in C#, TS or JS &amp;ndash; Texture mapping, back-face culling &amp;amp; WebGL
+
+Here is the final tutorial of this long series. We’re going to see how to apply a texture to a mesh by using mapping coordinates exported from Blender. If you’ve managed to understand the previous tutorials, it will just be some piece of cake to apply some textures. The main…" href="https://www.davrous.com/2013/07/18/tutorial-part-6-learning-how-to-write-a-3d-software-engine-in-c-ts-or-js-texture-mapping-back-face-culling-webgl/" class="jp-relatedposts-post-a">Tutorial part 6: learning how to write a 3D software engine in C#, TS or JS – Texture mapping, back-face culling &amp; WebGL</a></span><span class="jp-relatedposts-post-date">July 18, 2013</span><span class="jp-relatedposts-post-context">In "3D Software Engine"</span></p><p class="jp-relatedposts-post jp-relatedposts-post2" data-post-id="794" data-post-format="false"><span class="jp-relatedposts-post-title"><a data-position="2" data-origin="824" rel="nofollow" title="Using WebGL to create games for the Windows Store
+
+The Windows Store is probably the most opened platform for game studios today. You can create your games using DirectX 11, HTML5 2d-Canvas, Cocos2D-X, Unity 3D and starting with Windows 8.1 with WebGL! By the way, if some of these technologies also interest you, here is a useful article to…" href="https://www.davrous.com/2013/11/19/using-webgl-to-create-games-for-the-windows-store/" class="jp-relatedposts-post-a">Using WebGL to create games for the Windows Store</a></span><span class="jp-relatedposts-post-date">November 19, 2013</span><span class="jp-relatedposts-post-context">In "English"</span></p></div></div>			</div><!-- .entry-content -->
+
+	<footer class="entry-footer">
+			</footer><!-- .entry-footer -->
+</article><!-- #post-## -->
+<div class="svg-container single-post-svg single-svg-bottom svg-block">
+	
+		<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1920 150">
+		  <g transform="translate(0,-902.36218)"></g>
+		  <path d="m 898.41609,-33.21176 0.01,0 -0.005,-0.009 -0.005,0.009 z"></path>
+		  <path d="m 898.41609,-33.21176 0.01,0 -0.005,-0.009 -0.005,0.009 z"></path>
+		  <path d="M 0,150 0,0 1925,0"></path>
+		</svg>
+	</div>
+			
+	<nav class="navigation post-navigation" role="navigation">
+		<h2 class="screen-reader-text">Post navigation</h2>
+		<div class="nav-links"><div class="nav-previous"><a href="https://www.davrous.com/2013/12/30/lhistoire-du-jeu-vido-travers-mes-30-ans-dexprience-de-joueur/" rel="prev">L’histoire du jeu vidéo à travers mes 30 ans d’expérience de joueur</a></div><div class="nav-next"><a href="https://www.davrous.com/2014/03/20/next-game-frontier-2014-videos-content/" rel="next">Next Game Frontier 2014: videos &amp; content</a></div></div>
+	</nav>
+			
+<div id="comments" class="comments-area">
+
+	
+			<h2 class="comments-title">
+			5 thoughts on “<span>Coding4Fun tutorial: creating a 3D WebGL procedural QRCode maze with Babylon.js</span>”		</h2>
+
+		
+		<ol class="comment-list">
+					<li id="comment-837" class="comment even thread-even depth-1">
+			<article id="div-comment-837" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/3651e719491c63d4424134d66fe53db9.jpeg" srcset="https://secure.gravatar.com/avatar/3651e719491c63d4424134d66fe53db9?s=120&amp;d=mm&amp;r=g 2x" class="avatar avatar-60 photo" data-pagespeed-url-hash="4219394675" onload="pagespeed.CriticalImages.checkImageForCriticality(this);" height="60" width="60">						<b class="fn">Xiao</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://www.davrous.com/2014/02/19/coding4fun-tutorial-creating-a-3d-webgl-procedural-qrcode-maze-with-babylon-js/#comment-837">
+							<time datetime="2014-03-04T22:34:46+00:00">
+								March  4, 2014 at 10:34 pm							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Amazing!</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://www.davrous.com/2014/02/19/coding4fun-tutorial-creating-a-3d-webgl-procedural-qrcode-maze-with-babylon-js/?replytocom=837#respond" onclick='return addComment.moveForm( "div-comment-837", "837", "respond", "824" )' aria-label="Reply to Xiao">Reply</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+		<li id="comment-838" class="comment odd alt thread-odd thread-alt depth-1">
+			<article id="div-comment-838" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/3651e719491c63d4424134d66fe53db9.jpeg" srcset="https://secure.gravatar.com/avatar/3651e719491c63d4424134d66fe53db9?s=120&amp;d=mm&amp;r=g 2x" class="avatar avatar-60 photo" data-pagespeed-url-hash="4219394675" onload="pagespeed.CriticalImages.checkImageForCriticality(this);" height="60" width="60">						<b class="fn">Amir Hossein</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://www.davrous.com/2014/02/19/coding4fun-tutorial-creating-a-3d-webgl-procedural-qrcode-maze-with-babylon-js/#comment-838">
+							<time datetime="2014-12-08T02:05:43+00:00">
+								December  8, 2014 at 2:05 am							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>OMG !!!</p>
+<p>Thank You So Much</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://www.davrous.com/2014/02/19/coding4fun-tutorial-creating-a-3d-webgl-procedural-qrcode-maze-with-babylon-js/?replytocom=838#respond" onclick='return addComment.moveForm( "div-comment-838", "838", "respond", "824" )' aria-label="Reply to Amir Hossein">Reply</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+		<li id="comment-839" class="comment even thread-even depth-1">
+			<article id="div-comment-839" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/3651e719491c63d4424134d66fe53db9.jpeg" srcset="https://secure.gravatar.com/avatar/3651e719491c63d4424134d66fe53db9?s=120&amp;d=mm&amp;r=g 2x" class="avatar avatar-60 photo" data-pagespeed-url-hash="4219394675" onload="pagespeed.CriticalImages.checkImageForCriticality(this);" height="60" width="60">						<b class="fn">Carl Bateman</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://www.davrous.com/2014/02/19/coding4fun-tutorial-creating-a-3d-webgl-procedural-qrcode-maze-with-babylon-js/#comment-839">
+							<time datetime="2014-12-12T13:32:19+00:00">
+								December 12, 2014 at 1:32 pm							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Wow! Merging meshes gives a crazy fast speed up! Thanks.</p>
+<p>The "How to merge meshes" wiki entry mentions the BABYLON.VertexData 
+object merge() function, is there a code example showing it?</p>
+<p>TIA</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://www.davrous.com/2014/02/19/coding4fun-tutorial-creating-a-3d-webgl-procedural-qrcode-maze-with-babylon-js/?replytocom=839#respond" onclick='return addComment.moveForm( "div-comment-839", "839", "respond", "824" )' aria-label="Reply to Carl Bateman">Reply</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+		<li id="comment-840" class="comment odd alt thread-odd thread-alt depth-1">
+			<article id="div-comment-840" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/3651e719491c63d4424134d66fe53db9.jpeg" srcset="https://secure.gravatar.com/avatar/3651e719491c63d4424134d66fe53db9?s=120&amp;d=mm&amp;r=g 2x" class="avatar avatar-60 photo" data-pagespeed-url-hash="4219394675" onload="pagespeed.CriticalImages.checkImageForCriticality(this);" height="60" width="60">						<b class="fn">bob</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://www.davrous.com/2014/02/19/coding4fun-tutorial-creating-a-3d-webgl-procedural-qrcode-maze-with-babylon-js/#comment-840">
+							<time datetime="2015-09-29T11:27:44+00:00">
+								September 29, 2015 at 11:27 am							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>ReferenceError: $ is not defined coding4fun.js:196:4</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://www.davrous.com/2014/02/19/coding4fun-tutorial-creating-a-3d-webgl-procedural-qrcode-maze-with-babylon-js/?replytocom=840#respond" onclick='return addComment.moveForm( "div-comment-840", "840", "respond", "824" )' aria-label="Reply to bob">Reply</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+		<li id="comment-841" class="comment even thread-even depth-1">
+			<article id="div-comment-841" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/a6d355d0c0c2e7598f89af15c0d7d0d7.jpeg" srcset="https://secure.gravatar.com/avatar/a6d355d0c0c2e7598f89af15c0d7d0d7?s=120&amp;d=mm&amp;r=g 2x" class="avatar avatar-60 photo" data-pagespeed-url-hash="753216221" onload="pagespeed.CriticalImages.checkImageForCriticality(this);" height="60" width="60">						<b class="fn">myjestic</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://www.davrous.com/2014/02/19/coding4fun-tutorial-creating-a-3d-webgl-procedural-qrcode-maze-with-babylon-js/#comment-841">
+							<time datetime="2016-03-25T23:46:44+00:00">
+								March 25, 2016 at 11:46 pm							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>This is a great tutorial. But there is one thing I cannot figure out:<br>
+soloCube.subMeshes = [];<br>
+soloCube.subMeshes.push(new BABYLON.SubMesh(0, 0, 4, 0, 6, soloCube));<br>
+soloCube.subMeshes.push(new BABYLON.SubMesh(1, 4, 20, 6, 30, soloCube));</p>
+<p>Can someone explain what exactly happens there?<br>
+How can I set the right side of the cube to a different color?</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://www.davrous.com/2014/02/19/coding4fun-tutorial-creating-a-3d-webgl-procedural-qrcode-maze-with-babylon-js/?replytocom=841#respond" onclick='return addComment.moveForm( "div-comment-841", "841", "respond", "824" )' aria-label="Reply to myjestic">Reply</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+		</ol><!-- .comment-list -->
+
+		
+	
+	
+		<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="https://www.davrous.com/2014/02/19/coding4fun-tutorial-creating-a-3d-webgl-procedural-qrcode-maze-with-babylon-js/?relatedposts_hit=1&amp;relatedposts_origin=972&amp;relatedposts_position=0#respond" style="display:none;">Cancel reply</a></small></h3>			<form action="https://www.davrous.com/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate="">
+				<p class="comment-notes">Your email address will not be published. Required fields are marked <span class="required">*</span></p><p class="comment-form-comment"><label for="comment">Comment</label><textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p><p class="comment-form-author"><label for="author">Name</label> <span class="required">*</span><input id="author" name="author" size="30" aria-required="true" type="text"></p>
+<p class="comment-form-email"><label for="email">Email</label> <span class="required">*</span><input id="email" name="email" size="30" aria-required="true" type="text"></p>
+<p class="comment-form-url"><label for="url">Website</label><input id="url" name="url" size="30" type="text"></p>
+<p class="form-submit"><input name="submit" id="submit" class="submit" value="Post Comment" type="submit"> <input name="comment_post_ID" value="824" id="comment_post_ID" type="hidden">
+<input name="comment_parent" id="comment_parent" value="0" type="hidden">
+</p><p style="display: none;"><input id="akismet_comment_nonce" name="akismet_comment_nonce" value="f7a47fb845" type="hidden"></p><p class="comment-subscription-form"><input name="subscribe_comments" id="subscribe_comments" value="subscribe" style="width: auto; -moz-appearance: checkbox; -webkit-appearance: checkbox;" type="checkbox"> <label class="subscribe-label" id="subscribe-label" for="subscribe_comments">Notify me of follow-up comments by email.</label></p><p class="comment-subscription-form"><input name="subscribe_blog" id="subscribe_blog" value="subscribe" style="width: auto; -moz-appearance: checkbox; -webkit-appearance: checkbox;" type="checkbox"> <label class="subscribe-label" id="subscribe-blog-label" for="subscribe_blog">Notify me of new posts by email.</label></p><p style="display: none;"></p>			<input id="ak_js" name="ak_js" value="1487772717124" type="hidden"></form>
+			</div><!-- #respond -->
+		
+</div><!-- #comments -->
+
+		
+		</main><!-- #main -->
+	</div><!-- #primary -->
+
+
+<div id="secondary" class="widget-area" role="complementary">
+
+
+
+	<nav id="site-navigation" class="main-navigation" role="navigation">
+		<div id="primary-menu" class="menu"><ul>
+<li class="page_item page-item-3275"><a href="https://www.davrous.com/about/">About Me</a></li>
+</ul></div>
+	</nav><!-- #site-navigation -->
+	<nav class="sidebar-nav"><div class="slicknav_menu"><a style="outline: medium none;" href="#" aria-haspopup="true" tabindex="0" class="slicknav_btn slicknav_collapsed"><span class="slicknav_menutxt"></span><span class="slicknav_icon slicknav_no-text"><span class="slicknav_icon-bar"></span><span class="slicknav_icon-bar"></span><span class="slicknav_icon-bar"></span></span></a><div role="menu" aria-hidden="true" style="display: none;" class="slicknav_nav slicknav_hidden"><ul>
+<li class="page_item page-item-3275"><a role="menuitem" href="https://www.davrous.com/about/">About Me</a></li>
+</ul></div></div></nav>
+
+
+
+			<aside id="text-7" class="widget widget_text">			<div class="textwidget"><a href="https://www.davrous.com/about/">
+<img src="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/starwarsdavrous.jpg" data-pagespeed-url-hash="1396838943" onload="pagespeed.CriticalImages.checkImageForCriticality(this);" width="75%">
+</a></div>
+		</aside><aside id="search-2" class="widget widget_search"><form role="search" method="get" class="search-form" action="https://www.davrous.com/">
+				<label>
+					<span class="screen-reader-text">Search for:</span>
+					<input class="search-field" placeholder="Search …" name="s" type="search">
+				</label>
+				<input class="search-submit" value="Search" type="submit">
+			</form></aside>		<aside id="recent-posts-2" class="widget widget_recent_entries">		<h3 class="widget-title">Recent Posts</h3>		<ul>
+					<li>
+				<a href="https://www.davrous.com/2016/12/07/creating-an-extension-for-all-browsers-edge-chrome-firefox-opera-brave/">Creating an extension for all browsers: Edge, Chrome, Firefox, Opera, Brave and Vivaldi</a>
+						</li>
+					<li>
+				<a href="https://www.davrous.com/2016/07/21/2016-is-the-year-of-vr-and-room-scale-vr-with-htc-vive-is-the-ultimate-experience/">2016 is the year of VR and room scale VR with HTC Vive is the ultimate experience</a>
+						</li>
+					<li>
+				<a href="https://www.davrous.com/2016/05/27/tutorial-creating-a-small-8-bit-responsive-drum-machine-using-web-audio-svg-multi-touches/">Tutorial: creating a small 8-bit responsive drum machine using Web Audio, SVG &amp; multi-touches</a>
+						</li>
+					<li>
+				<a href="https://www.davrous.com/2016/05/03/stabilizing-your-drones-or-any-shaky-video-with-microsoft-cognitive-services/">Stabilizing your drone’s or any shaky video with Microsoft Cognitive Services</a>
+						</li>
+					<li>
+				<a href="https://www.davrous.com/2016/02/05/discovering-sponza-by-babylon-js-and-sharing-tips-on-how-to-build-a-cross-platforms-webgl-game/">Discovering Sponza by Babylon.js and sharing tips on how to build a cross-platforms WebGL game</a>
+						</li>
+				</ul>
+		</aside>		<aside id="recent-comments-2" class="widget widget_recent_comments"><h3 class="widget-title">Recent Comments</h3><ul id="recentcomments"><li class="recentcomments"><span class="comment-author-link"><a href="https://www.davrous.com/" rel="external nofollow" class="url">David Rousset</a></span> on <a href="https://www.davrous.com/2013/07/18/tutorial-part-6-learning-how-to-write-a-3d-software-engine-in-c-ts-or-js-texture-mapping-back-face-culling-webgl/#comment-7737">Tutorial part 6: learning how to write a 3D software engine in C#, TS or JS – Texture mapping, back-face culling &amp; WebGL</a></li><li class="recentcomments"><span class="comment-author-link">hello graphics</span> on <a href="https://www.davrous.com/2013/07/18/tutorial-part-6-learning-how-to-write-a-3d-software-engine-in-c-ts-or-js-texture-mapping-back-face-culling-webgl/#comment-7736">Tutorial part 6: learning how to write a 3D software engine in C#, TS or JS – Texture mapping, back-face culling &amp; WebGL</a></li><li class="recentcomments"><span class="comment-author-link">Giovanni Passerello</span> on <a href="https://www.davrous.com/2013/06/13/tutorial-series-learning-how-to-write-a-3d-soft-engine-from-scratch-in-c-typescript-or-javascript/#comment-5950">Tutorial series: learning how to write a 3D soft engine from scratch in C#, TypeScript or JavaScript</a></li><li class="recentcomments"><span class="comment-author-link">matt_p</span> on <a href="https://www.davrous.com/2013/06/13/tutorial-series-learning-how-to-write-a-3d-soft-engine-from-scratch-in-c-typescript-or-javascript/#comment-5909">Tutorial series: learning how to write a 3D soft engine from scratch in C#, TypeScript or JavaScript</a></li><li class="recentcomments"><span class="comment-author-link">Ian Sheehan</span> on <a href="https://www.davrous.com/2014/11/18/understanding-collisions-physics-by-building-a-cool-webgl-babylon-js-demo-with-oimo-js/#comment-4202">Understanding collisions &amp; physics by building a cool WebGL Babylon.js demo with Oimo.js</a></li></ul></aside><aside id="archives-2" class="widget widget_archive"><h3 class="widget-title">Archives</h3>		<ul>
+			<li><a href="https://www.davrous.com/2016/12/?lang=en_us">December 2016</a></li>
+	<li><a href="https://www.davrous.com/2016/07/?lang=en_us">July 2016</a></li>
+	<li><a href="https://www.davrous.com/2016/05/?lang=en_us">May 2016</a></li>
+		</ul>
+		</aside><aside id="categories-2" class="widget widget_categories"><h3 class="widget-title">Categories</h3>		<ul>
+	<li class="cat-item cat-item-131"><a href="https://www.davrous.com/category/3d-software-engine/?lang=en_us">3D Software Engine</a>
+</li>
+	<li class="cat-item cat-item-130"><a href="https://www.davrous.com/category/coding4fun/?lang=en_us">Coding4Fun</a>
+</li>
+	<li class="cat-item cat-item-132"><a href="https://www.davrous.com/category/easeljs/?lang=en_us">EaselJS</a>
+</li>
+	<li class="cat-item cat-item-125"><a href="https://www.davrous.com/category/english/?lang=en_us">English</a>
+</li>
+	<li class="cat-item cat-item-126"><a href="https://www.davrous.com/category/french/?lang=en_us">French</a>
+</li>
+	<li class="cat-item cat-item-127"><a href="https://www.davrous.com/category/non-technical/?lang=en_us">Non technical</a>
+</li>
+	<li class="cat-item cat-item-128"><a href="https://www.davrous.com/category/technical-article/?lang=en_us">Technical article</a>
+</li>
+	<li class="cat-item cat-item-129"><a href="https://www.davrous.com/category/tutorial/?lang=en_us">Tutorial</a>
+</li>
+	<li class="cat-item cat-item-1"><a href="https://www.davrous.com/category/uncategorized/?lang=en_us">Uncategorized</a>
+</li>
+		</ul>
+</aside><aside id="meta-2" class="widget widget_meta"><h3 class="widget-title">Meta</h3>			<ul>
+						<li><a href="https://www.davrous.com/wp-login.php">Log in</a></li>
+			<li><a href="https://www.davrous.com/feed/">Entries <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="https://www.davrous.com/comments/feed/">Comments <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="https://wordpress.org/" title="Powered by WordPress, state-of-the-art semantic personal publishing platform.">WordPress.org</a></li>			</ul>
+			</aside><aside id="text-13" class="widget widget_text">			<div class="textwidget"><script async="" src="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/babylon.js" onload="babylonJSLoaded()"></script>
+<script>var canvas_w_orig=1920;var canvas_h_orig=850;var myHeader;var readyToDisplayScene=0;function babylonJSLoaded(){readyToDisplayScene++;if(readyToDisplayScene===2){renderWebGLHeader();}}window.addEventListener('DOMContentLoaded',function(){readyToDisplayScene++;if(readyToDisplayScene===2){renderWebGLHeader();}});function renderWebGLHeader(){var sun;var earth;var mars;var sunFresnel;var earthFresnel;var marsFresnel;myHeader=document.getElementById("masthead");var canvas=document.createElement("canvas");canvas.id="babylonjsBanner";canvas.style.width="100%";canvas.style.height="100%";canvas.style.position="absolute";canvas.style.overflow="hidden";canvas.style.top="0px";canvas.style.left="0px";canvas.style.zIndex=-2;myHeader.insertBefore(canvas,myHeader.firstChild);var backImage=document.getElementById("backImage");var engine=new BABYLON.Engine(canvas,true);resizeToCover();var createScene=function(){var scene=new BABYLON.Scene(engine);scene.clearColor=new BABYLON.Color4(0,0,0,0);var camera=new BABYLON.FreeCamera('camera1',new BABYLON.Vector3(0,5,-10),scene);camera.setTarget(BABYLON.Vector3.Zero());var light=new BABYLON.HemisphericLight('light1',new BABYLON.Vector3(0,0,0),scene);light.specular=BABYLON.Color3.Black();light.diffuse=new BABYLON.Color3(0.5,0.5,0.4);var sunLight=new BABYLON.PointLight("sunlight",new BABYLON.Vector3(1.6,1.1,0),scene);sunLight.specular=BABYLON.Color3.Black();sunLight.diffuse=new BABYLON.Color3(0.75,0.75,0.6);sunFresnel=BABYLON.Mesh.CreateSphere("SunFresnel",32,5.9,scene);sunFresnel.position=new BABYLON.Vector3(1.6,1.1,0);var sunFresnelMaterial=new BABYLON.StandardMaterial("SunFresnelMaterial",scene);sunFresnelMaterial.emissiveColor=BABYLON.Color3.White();sunFresnelMaterial.alpha=0.7;sunFresnelMaterial.alphaMode=BABYLON.Engine.ALPHA_ADD;sunFresnelMaterial.emissiveFresnelParameters=new BABYLON.FresnelParameters();sunFresnelMaterial.emissiveFresnelParameters.bias=0.05;sunFresnelMaterial.emissiveFresnelParameters.power=1;sunFresnelMaterial.emissiveFresnelParameters.leftColor=BABYLON.Color3.Yellow();sunFresnelMaterial.emissiveFresnelParameters.rightColor=BABYLON.Color3.Black();sunFresnel.material=sunFresnelMaterial;BABYLON.SceneLoader.ImportMesh("SunLoPoly","https://david.blob.core.windows.net/babylonjs/banner/","sun.babylon",scene,function(newMeshes,particleSystems,skeletons){sun=newMeshes[0];sun.scaling=new BABYLON.Vector3(8.25,8.25,8.25);sun.position=new BABYLON.Vector3(1.6,1.1,0);sun.material.emissiveColor=new BABYLON.Color3(0.8,0.8,0.8);earthFresnel=BABYLON.Mesh.CreateSphere("EarthFresnel",32,0.2,scene);earthFresnel.position=new BABYLON.Vector3(-0.71,-0.4,0);earthFresnel.parent=sun;var earthFresnelMaterial=new BABYLON.StandardMaterial("EarthFresnelMaterial",scene);earthFresnelMaterial.emissiveColor=new BABYLON.Color3(0.3,0.3,0.3);earthFresnelMaterial.alpha=0.7;earthFresnelMaterial.alphaMode=BABYLON.Engine.ALPHA_ADD;earthFresnelMaterial.emissiveFresnelParameters=new BABYLON.FresnelParameters();earthFresnelMaterial.emissiveFresnelParameters.bias=0.05;earthFresnelMaterial.emissiveFresnelParameters.power=1;earthFresnelMaterial.emissiveFresnelParameters.leftColor=new BABYLON.Color3(0.6431372549019608,0.8313725490196078,1);earthFresnelMaterial.emissiveFresnelParameters.rightColor=BABYLON.Color3.Blue();earthFresnel.material=earthFresnelMaterial;marsFresnel=BABYLON.Mesh.CreateSphere("MarsFresnel",32,0.056,scene);marsFresnel.position=new BABYLON.Vector3(0.332,0.50,0.275);marsFresnel.parent=sun;var marsFresnelMaterial=new BABYLON.StandardMaterial("EarthFresnelMaterial",scene);marsFresnelMaterial.emissiveColor=new BABYLON.Color3(0.1,0.1,0.1);marsFresnelMaterial.alpha=0.5;marsFresnelMaterial.alphaMode=BABYLON.Engine.ALPHA_ADD;marsFresnelMaterial.emissiveFresnelParameters=new BABYLON.FresnelParameters();marsFresnelMaterial.emissiveFresnelParameters.bias=0.05;marsFresnelMaterial.emissiveFresnelParameters.power=1;marsFresnelMaterial.emissiveFresnelParameters.leftColor=BABYLON.Color3.Red();marsFresnelMaterial.emissiveFresnelParameters.rightColor=BABYLON.Color3.Black();marsFresnel.material=marsFresnelMaterial;BABYLON.SceneLoader.ImportMesh("EarthClouds","https://david.blob.core.windows.net/babylonjs/banner/","earth.babylon",scene,function(newMeshes,particleSystems,skeletons){earth=newMeshes[0];earth.scaling=new BABYLON.Vector3(11.5,11.5,11.5);earth.rotation.x+=Math.PI/2;earth.position=new BABYLON.Vector3(-0.71,-0.4,0);earth.parent=sun;});BABYLON.SceneLoader.ImportMesh("Mars","https://david.blob.core.windows.net/babylonjs/banner/","mars.babylon",scene,function(newMeshes,particleSystems,skeletons){mars=newMeshes[0];mars.scaling=new BABYLON.Vector3(3.2,3.2,3.2);mars.rotation.x+=Math.PI/2;mars.position=new BABYLON.Vector3(0.332,0.50,0.275);mars.parent=sun;});});return scene;}
+var scene=createScene();engine.runRenderLoop(function(){if(sun&&earth&&mars){sun.rotation.y+=0.003;earth.rotation.z+=0.01;mars.rotation.z+=0.01;}scene.render();});function resizeToCover(){var currentWidth=myHeader.offsetWidth;var currentHeight=myHeader.offsetHeight;var scale_h=currentWidth/canvas_w_orig;var scale_v=currentHeight/canvas_h_orig;var scale=scale_h>scale_v?scale_h:scale_v;canvas.style.width=scale*canvas_w_orig+"px";canvas.style.height=scale*canvas_h_orig+"px";canvas.style.transform="translateX(-"+(scale*canvas_w_orig-currentWidth)/2+"px)";engine.resize();};window.addEventListener('resize',function(){resizeToCover();});}</script></div>
+		</aside>	
+</div><!-- #secondary -->
+
+		</div>
+	</div><!-- #content -->
+
+	<div class="svg-container footer-svg svg-block">
+		
+		<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1890 150">
+			<g transform="translate(0,-902.36218)"></g>
+			  <path d="m 898.41609,-33.21176 0.01,0 -0.005,-0.009 -0.005,0.009 z"></path>
+			  <path d="m 898.41609,-33.21176 0.01,0 -0.005,-0.009 -0.005,0.009 z"></path>
+			  <path d="m 1925,0 0,150 -1925,0"></path>
+		</svg>
+		</div>
+	<footer id="colophon" class="site-footer" role="contentinfo">
+		<div class="site-info container">
+			<a href="http://wordpress.org/" rel="nofollow">Proudly powered by WordPress</a><span class="sep"> | </span>Theme: <a href="http://themeisle.com/themes/oblique/" rel="nofollow">Oblique</a> by Themeisle.		</div><!-- .site-info -->
+	</footer><!-- #colophon -->
+</div><!-- #page -->
+
+	<div style="display:none">
+	<div class="grofile-hash-map-3651e719491c63d4424134d66fe53db9">
+	</div>
+	<div class="grofile-hash-map-a6d355d0c0c2e7598f89af15c0d7d0d7">
+	</div>
+	</div>
+
+	<script type="text/javascript">window.WPCOM_sharing_counts={"https:\/\/www.davrous.com\/2014\/02\/19\/coding4fun-tutorial-creating-a-3d-webgl-procedural-qrcode-maze-with-babylon-js\/":824};</script>
+<script src="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/wp-content_plugins_akismet__inc_form.js"></script><script>eval(mod_pagespeed_SnhpyQUK4X);</script>
+<script type="text/javascript" src="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/devicepx-jetpack.js"></script>
+<script>eval(mod_pagespeed_lY9NMJv1uT);</script>
+<script>eval(mod_pagespeed_F9gKaYEq81);</script>
+<script>eval(mod_pagespeed_8KLYCyPfbZ);</script>
+<script>eval(mod_pagespeed_YL$UdB2EG_);</script>
+<script>eval(mod_pagespeed_zHn7WvnZbb);</script>
+<script type="text/javascript">var sharing_js_options={"lang":"en","counts":"1"};</script>
+<script type="text/javascript" src="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/sharing.js"></script>
+<script type="text/javascript">var windowOpen;jQuery(document.body).on('click','a.share-twitter',function(){if('undefined'!==typeof windowOpen){windowOpen.close();}windowOpen=window.open(jQuery(this).attr('href'),'wpcomtwitter','menubar=1,resizable=1,width=600,height=350');return false;});var windowOpen;jQuery(document.body).on('click','a.share-facebook',function(){if('undefined'!==typeof windowOpen){windowOpen.close();}windowOpen=window.open(jQuery(this).attr('href'),'wpcomfacebook','menubar=1,resizable=1,width=600,height=400');return false;});var windowOpen;jQuery(document.body).on('click','a.share-google-plus-1',function(){if('undefined'!==typeof windowOpen){windowOpen.close();}windowOpen=window.open(jQuery(this).attr('href'),'wpcomgoogle-plus-1','menubar=1,resizable=1,width=480,height=550');return false;});</script>
+<script type="text/javascript" src="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/e-201708.js" async="" defer="defer"></script>
+<script type="text/javascript">_stq=window._stq||[];_stq.push(['view',{v:'ext',j:'1:4.4.2',blog:'109948310',post:'824',tz:'0',srv:'www.davrous.com'}]);_stq.push(['clickTrackerInit','109948310','824']);</script>
+
+<!-- SyntaxHighlighter Stuff -->
+<script type="text/javascript" src="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/shCore.js"></script>
+<script type="text/javascript">SyntaxHighlighter.all();</script>
+
+
+
+
+<img id="wpstats" alt=":)" src="Coding4Fun%20tutorial:%20creating%20a%203D%20WebGL%20procedural%20QRCode%20maze%20with%20Babylon.js%20%E2%80%93%20David%20Rousset_files/g.gif" height="5" width="6"><iframe title="Twitter analytics iframe" style="position: absolute; visibility: hidden; display: none; width: 0px; height: 0px; padding: 0px; border: medium none;" allowfullscreen="true" allowtransparency="true" scrolling="no" id="rufous-sandbox" frameborder="0"></iframe></body></html>
