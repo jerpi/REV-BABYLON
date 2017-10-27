@@ -8,6 +8,10 @@ function createScene(engine){
     enableCollisions(scene, camera);
     createMuseum(30, 30, scene);
 
+    const mover = new Mover(camera);
+
+    scene.rend
+
     return scene;
 }
 

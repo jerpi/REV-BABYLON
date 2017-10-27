@@ -33,18 +33,3 @@
 		return new BABYLON.FreeCamera("cam",new BABYLON.Vector3(2,2,-5), scene) ;
 	}
 
-	function createLight(scene){
-
-		var light0 = new BABYLON.HemisphericLight("Hemi0", new BABYLON.Vector3(0, 1, 0), scene);
-		light0.diffuse = new BABYLON.Color3(1, 1, 1);
-		light0.specular = new BABYLON.Color3(1, 1, 1);
-		light0.groundColor = new BABYLON.Color3(0, 0, 0);
-
-		return light0 ;
-	}
-
-
-	function createGround(size,scene){
-		return new BABYLON.Mesh.CreateGround("floor",size,size,1,scene,false) ;
-	}
-
