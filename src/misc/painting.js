@@ -1,10 +1,8 @@
 
 class Painting {
-    constructor(params, scene) {
-
+    constructor(params, scene, mover) {
         this.position = params.position;
         this.rotation = params.rotation;
-
         this.painting = params.painting;
         this.mesh = new BABYLON.Mesh.CreateBox(params.name, params.height, scene);
         this.mesh.scaling.z = 0.01;
@@ -15,11 +13,36 @@ class Painting {
         this.mesh.material.diffuseTexture.uScale = 1;
         this.mesh.material.diffuseTexture.vScale = 1;
 
+        this.attachTriggers(scene, mover);
+    }
+
+    attachTriggers(scene, mover) {
+        this.mesh.actionManager = new BABYLON.ActionManager(scene);
+        this.attachClickedTrigger(mover);
         this.attachViewedTrigger(scene);
     }
 
+    attachClickedTrigger(mover) {
+        const attractAction = new BABYLON.ExecuteCodeAction(
+            BABYLON.ActionManager.OnPickTrigger,
+            (event) => {
+                // todo register force somewhere
+                console.log("Force registered");
+            }
+        );
+        const resetAction = new BABYLON.ExecuteCodeAction(
+            BABYLON.ActionManager.OnPickTrigger,
+            (event) => {
+                // todo un-register force
+                console.log("Force unregistered");
+            }
+        );
+        this.mesh.actionManager
+            .registerAction(attractAction)
+            .then(resetAction);
+    }
+
     attachViewedTrigger(scene) {
-        this.mesh.actionManager = new BABYLON.ActionManager(scene);
         const showAction = new BABYLON.ExecuteCodeAction(
             BABYLON.ActionManager.OnPointerOverTrigger,
             (event) => {

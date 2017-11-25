@@ -2,7 +2,7 @@
 
 class Room {
 
-    constructor(params, scene) {
+    constructor(params, scene, mover) {
         this.name = params.name || "Room";
         this.width = params.width;
         this.depth = params.depth;
@@ -14,7 +14,7 @@ class Room {
         this.createWalls(scene, params.textures.wall);
         this.createFloor(scene, params.textures.floor);
         this.createCeiling(scene, params.textures.ceiling);
-        this.createPaintings(scene, params.paintings);
+        this.createPaintings(scene, params.paintings, mover);
         this.createBenchs(scene);
     }
 
@@ -111,7 +111,7 @@ class Room {
         this.ceiling = Ground.create(params, scene);
     }
 
-    createPaintings(scene, paintings) {
+    createPaintings(scene, paintings, mover) {
         const positions = [
             new BABYLON.Vector3(-this.width/2 + WALL_THICKNESS, this.height/2, -this.depth/4).addInPlace(this.position),
             new BABYLON.Vector3(-this.width/2 + WALL_THICKNESS, this.height/2, 0).addInPlace(this.position),
@@ -142,8 +142,8 @@ class Room {
                 height: this.height * 0.75,
                 painting: paintings[i]
             };
-            this.paintings[i] = new Painting(params, scene);
-            if (i%3 === 0) {
+            this.paintings[i] = new Painting(params, scene, mover);
+            if (i === 2 || i === 5) {
                 this.createLight(params, scene);
             }
         }
@@ -156,11 +156,28 @@ class Room {
     }
 
     createLight(params, scene) {
-        const position = params.position.clone();
-        const rotation =  params.rotation.clone();
+        const position = new BABYLON.Vector3.Zero().addInPlace(params.position);
+        const direction = new BABYLON.Vector3.Zero();
+        switch (params.rotation.y) {
+            case Math.PI:
+                direction.z = 1;
+                position.z -= 5;
+                break;
+            case Math.PI/2:
+                direction.x = -1;
+                position.x += 5;
+                break;
+            case -Math.PI/2:
+                direction.x = 1;
+                position.x += 5;
+                break;
+            default:
+                direction.z = -1;
+                position.z += 5;
+        }
 
-        const light = new BABYLON.SpotLight(params.name + "_spot", position, rotation, 0.8, 2, scene);
-        light.diffuseColor = new BABYLON.Color3(1, 1, 1);
+        const light = new BABYLON.SpotLight(params.name + "_spot", position, direction, 0.7, 10, scene);
+        light.ambientColor = new BABYLON.Color3(1, 1, 1);
         light.setEnabled(false);
         this.lights.push(light);
     }

@@ -34,14 +34,12 @@ class Door {
         this.height = params.height;
         this.depth = params.depth;
 
-        const door = new BABYLON.Mesh.CreateBox(params.name, this.width, this.depth, 2, scene);
-        this.position = door.position = params.position || door.position;
-        door.position.y += params.width/2;
-        this.position = door.position.clone();
-        door.scaling.z = 0.05;
-
-        door.rotation = params.rotation || door.rotation;
-        this.mesh = door;
+        this.mesh = new BABYLON.Mesh.CreateBox(params.name, this.width, this.depth, 2, scene);
+        this.position = this.mesh.position = params.position || this.mesh.position;
+        this.mesh.position.y += params.width/2;
+        this.position = this.mesh.position.clone();
+        this.mesh.scaling.z = 0.05;
+        this.mesh.rotation = params.rotation || this.mesh.rotation;
         this.scene = scene;
     }
 
@@ -63,7 +61,7 @@ class Door {
             },
             {
                 frame: 60,
-                value: this.width + this.position.x
+                value: this.width + this.position.x + 0.001
             },
         ];
         animation.setKeys(animationKeys);

@@ -1,14 +1,13 @@
 "use strict";
 
 /**
- * First apply all forces with calls to applyForce(force : BABLYON.Vector3),
+ * First apply all forces with calls to applyForce(force : BABYLON.Vector3),
  * then call update()
  * @param initialPosition Initial position of the object
  * @param _mass Mass of the object
  * @param _dt time step
  * @constructor
  */
-
 class Mover {
 
     constructor(position, mass, dt) {

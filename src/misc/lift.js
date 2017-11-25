@@ -20,7 +20,7 @@ class Lift {
         this.lift.scaling.y = this.scalingY;
         this.lift.material = new BABYLON.StandardMaterial('step_material', scene);
         this.lift.material.diffuseTexture = new BABYLON.Texture('assets/textures/dante.jpg', scene);
-        this.lift.position = this.position;
+        this.lift.position = this.position.clone();
         this.lift.checkCollisions = true;
     }
 
