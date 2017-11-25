@@ -1,22 +1,32 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8"/>
-    <title>Cour ReV</title>
-    <link href="css/main.css" rel="stylesheet" />
-    <script src="dist/babylon.custom.js"></script>
-    <script src="babylonprep.js"></script>
-    <script src="src/scene.js"></script>
-    <script src="src/museum.js"></script>
-    <script src="src/staircase.js"></script>
-    <script src="src/lift.js"></script>
-    <script src="src/miscs.js"></script>
-    <script src="src/paintings.js"></script>
-    <script src="src/sculptures.js"></script>
-    <script src="src/walls.js"></script>
-  </head>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Cour ReV</title>
+        <link href="css/main.css" rel="stylesheet" />
+        <script src="dist/babylon.custom.js"></script>
+        <script src="babylonprep.js"></script>
+        <script src="src/scene.js"></script>
 
-  <body>
-    <canvas id="canvas" class="offScreen"></canvas>
-  </body>
+        <!-- Rooms -->
+        <script src="src/museum.js"></script>
+        <script src="src/rooms/hall.js"></script>
+        <script src="src/rooms/mezzanine.js"></script>
+        <script src="src/rooms/room.js"></script>
+
+        <!-- Misc -->
+        <script src="src/misc/staircase.js"></script>
+        <script src="src/misc/lift.js"></script>
+        <script src="src/misc/misc.js"></script>
+        <script src="src/misc/painting.js"></script>
+        <script src="src/misc/paintings.js"></script>
+        <script src="src/misc/sculptures.js"></script>
+        <script src="src/misc/walls.js"></script>
+
+        <script src="src/mover.js"></script>
+    </head>
+
+    <body>
+        <canvas id="canvas" class="offScreen"></canvas>
+    </body>
 </html>

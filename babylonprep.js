@@ -1,35 +1,23 @@
-      	window.onload = init ;
+window.onload = init ;
 
+function init(){
 
-	function init(){
+    // =============================================
+    // Création de la structure principale graphique
+    // =============================================
+    let canvas = document.getElementById("canvas");
+    let engine = new BABYLON.Engine(canvas, true);
+    let s = new Scene(engine);
+    s.scene.debugLayer.show() ;
+    s.scene.activeCamera.attachControl(canvas);
 
-        	// =============================================
-	      	// Création de la structure principale graphique
-	      	// =============================================
+    // ====================
+    // Callback d'affichage
+    // ====================
+    engine.runRenderLoop(() => s.scene.render());
 
-	      	var canvas = document.getElementById("canvas") ; 
-	      	var engine = new BABYLON.Engine(canvas,true) ; 
-
-	      	var scene = createScene(engine) ;
-		scene.debugLayer.show() ; 
-
-		scene.activeCamera.attachControl(canvas) ;   
-
-
-	      	// ====================
-	      	// Callback d'affichage
-	      	// ====================
-	      	engine.runRenderLoop(function(){scene.render();}) ; 
-
-	      	// ======================
-	      	// Callback de retaillage
-	      	// ======================
-	      	window.addEventListener("resize", function (){engine.resize();});
-	}
-
-
-
-	function createCamera(scene){
-		return new BABYLON.FreeCamera("cam",new BABYLON.Vector3(2,2,-5), scene) ;
-	}
-
+    // ======================
+    // Callback de retaillage
+    // ======================
+    window.addEventListener("resize", () => engine.resize());
+}

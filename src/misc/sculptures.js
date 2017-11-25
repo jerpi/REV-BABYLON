@@ -1,8 +1,9 @@
+"use strict";
+
 const Pedestals = {
     height: 1,
     width: 0.5
 };
-
 
 
 function createSculptures(roomWidth, initialPosition, scene) {
@@ -45,9 +46,7 @@ function createSculptureSphere(position, scene) {
     );
     sculpture.material = new BABYLON.StandardMaterial("sculpture_torus_material", scene);
     sculpture.position = position.add(
-        new BABYLON.Vector3(0,
-            Pedestals.height + Sphere.size/2,
-            0)
+        new BABYLON.Vector3(0, Pedestals.height + Sphere.size/2, 0)
     );
 
 
@@ -104,11 +103,7 @@ function createSculptureTorusKnot(position, scene) {
     );
     sculpture.material = new BABYLON.StandardMaterial("sculpture_torus_material", scene);
     sculpture.position = position.add(
-        new BABYLON.Vector3(
-            0,
-            Pedestals.height + Knot.radius * 2,
-            0
-        )
+        new BABYLON.Vector3(0, Pedestals.height + Knot.radius * 2, 0)
     );
 
     const animation = new BABYLON.Animation(
@@ -158,10 +153,7 @@ function createSculptureTorus(position, scene) {
     );
     sculpture.material = new BABYLON.StandardMaterial("sculpture_torus_material", scene);
     sculpture.position = position.add(
-        new BABYLON.Vector3(0,
-            Pedestals.height + Torus.diameter,
-            0
-        )
+        new BABYLON.Vector3(0, Pedestals.height + Torus.diameter, 0)
     );
 
     const animation = new BABYLON.Animation(
