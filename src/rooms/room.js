@@ -113,14 +113,22 @@ class Room {
 
     createPaintings(scene, paintings, mover) {
         const positions = [
-            new BABYLON.Vector3(-this.width/2 + WALL_THICKNESS, this.height/2, -this.depth/4).addInPlace(this.position),
-            new BABYLON.Vector3(-this.width/2 + WALL_THICKNESS, this.height/2, 0).addInPlace(this.position),
-            new BABYLON.Vector3(-this.width/2 + WALL_THICKNESS, this.height/2, this.depth/4).addInPlace(this.position),
-            new BABYLON.Vector3(-this.width/4, this.height/2, -this.depth/2 + WALL_THICKNESS).addInPlace(this.position),
-            new BABYLON.Vector3(this.width/4, this.height/2, -this.depth/2 + WALL_THICKNESS).addInPlace(this.position),
-            new BABYLON.Vector3(-(this.width/2 + WALL_THICKNESS), this.height/2, -this.depth/4).addInPlace(this.position),
-            new BABYLON.Vector3(-(this.width/2 + WALL_THICKNESS), this.height/2, 0).addInPlace(this.position),
-            new BABYLON.Vector3(-(this.width/2 + WALL_THICKNESS), this.height/2, this.depth/4).addInPlace(this.position),
+            new BABYLON.Vector3(-this.width/2 + WALL_THICKNESS, this.height/2, -this.depth/4)
+                .addInPlace(this.position),
+            new BABYLON.Vector3(-this.width/2 + WALL_THICKNESS, this.height/2, 0)
+                .addInPlace(this.position),
+            new BABYLON.Vector3(-this.width/2 + WALL_THICKNESS, this.height/2, this.depth/4)
+                .addInPlace(this.position),
+            new BABYLON.Vector3(-this.width/4, this.height/2, -this.depth/2 + WALL_THICKNESS)
+                .addInPlace(this.position),
+            new BABYLON.Vector3(this.width/4, this.height/2, -this.depth/2 + WALL_THICKNESS)
+                .addInPlace(this.position),
+            new BABYLON.Vector3(-(-this.width/2 + WALL_THICKNESS), this.height/2, -this.depth/4)
+                .addInPlace(this.position),
+            new BABYLON.Vector3(-(-this.width/2 + WALL_THICKNESS), this.height/2, 0)
+                .addInPlace(this.position),
+            new BABYLON.Vector3(-(-this.width/2 + WALL_THICKNESS), this.height/2, this.depth/4)
+                .addInPlace(this.position),
         ];
         const rotations = [
             new BABYLON.Vector3(0, -Math.PI/2, 0),
@@ -160,12 +168,13 @@ class Room {
         const direction = new BABYLON.Vector3.Zero();
         switch (params.rotation.y) {
             case Math.PI:
+            case -Math.PI:
                 direction.z = 1;
                 position.z -= 5;
                 break;
             case Math.PI/2:
                 direction.x = -1;
-                position.x += 5;
+                position.x -= 5;
                 break;
             case -Math.PI/2:
                 direction.x = 1;
@@ -175,6 +184,7 @@ class Room {
                 direction.z = -1;
                 position.z += 5;
         }
+        console.log(params.rotation.y, direction, position);
 
         const light = new BABYLON.SpotLight(params.name + "_spot", position, direction, 0.7, 10, scene);
         light.ambientColor = new BABYLON.Color3(1, 1, 1);

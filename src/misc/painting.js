@@ -1,9 +1,9 @@
-
 class Painting {
     constructor(params, scene, mover) {
         this.position = params.position;
         this.rotation = params.rotation;
         this.painting = params.painting;
+
         this.mesh = new BABYLON.Mesh.CreateBox(params.name, params.height, scene);
         this.mesh.scaling.z = 0.01;
         this.mesh.position = params.position || this.mesh.position;
@@ -13,70 +13,115 @@ class Painting {
         this.mesh.material.diffuseTexture.uScale = 1;
         this.mesh.material.diffuseTexture.vScale = 1;
 
+        this.computeViewPosition();
         this.attachTriggers(scene, mover);
     }
 
     attachTriggers(scene, mover) {
         this.mesh.actionManager = new BABYLON.ActionManager(scene);
         this.attachClickedTrigger(mover);
-        this.attachViewedTrigger(scene);
+        this.attachViewedTrigger(mover);
     }
 
     attachClickedTrigger(mover) {
-        const attractAction = new BABYLON.ExecuteCodeAction(
+        const action = new BABYLON.ExecuteCodeAction(
             BABYLON.ActionManager.OnPickTrigger,
             (event) => {
-                // todo register force somewhere
-                console.log("Force registered");
+                if (mover.target === this.viewPosition) {
+                    mover.resetAttraction();
+                } else {
+                    mover.target = this.viewPosition;
+                }
             }
         );
-        const resetAction = new BABYLON.ExecuteCodeAction(
-            BABYLON.ActionManager.OnPickTrigger,
-            (event) => {
-                // todo un-register force
-                console.log("Force unregistered");
-            }
-        );
-        this.mesh.actionManager
-            .registerAction(attractAction)
-            .then(resetAction);
+        this.mesh.actionManager.registerAction(action);
     }
 
-    attachViewedTrigger(scene) {
+    attachViewedTrigger(mover) {
         const showAction = new BABYLON.ExecuteCodeAction(
             BABYLON.ActionManager.OnPointerOverTrigger,
             (event) => {
-                this.displayDescription(scene);
+                if (this.isClose(mover)) {
+                    this.displayDescription();
+                }
             }
         );
         const hideAction = new BABYLON.ExecuteCodeAction(
             BABYLON.ActionManager.OnPointerOutTrigger,
             (event) => {
-                this.hideDescription(scene);
+                this.hideDescription();
             }
         );
         this.mesh.actionManager.registerAction(showAction);
         this.mesh.actionManager.registerAction(hideAction);
     }
 
-    displayNameAuthor(scene) {
-        console.log(this.painting.name, this.painting.artist);
+    computeViewPosition() {
+        this.viewPosition = this.position.clone();
+        switch(this.rotation.y) {
+            case Math.Pi:
+            case -Math.PI:
+                this.viewPosition.z -= 3;
+                break;
+            case Math.PI/2:
+                this.viewPosition.x -= 3;
+                break;
+            case -Math.PI/2:
+                this.viewPosition.x += 3;
+                break;
+            default:
+                this.viewPosition.z += 3;
+        }
     }
 
-    hideNameAuthor(scene) {
-
+    displayNameAuthor() {
+        const element = document.getElementById("painting");
+        element.classList.remove("hide");
+        const title = document.getElementById("title");
+        if (!title.firstChild) {
+            let text = document.createTextNode('');
+            title.appendChild(text);
+        }
+        title.firstChild.nodeValue = this.painting.name;
+        const artist = document.getElementById("artist");
+        if (!artist.firstChild) {
+            let text = document.createTextNode('');
+            artist.appendChild(text);
+        }
+        artist.firstChild.nodeValue = this.painting.artist;
     }
 
-    displayDescription(scene) {
-        console.log(this.painting.description);
+    static hideNameAuthor() {
+        const element = document.getElementById("painting");
+        element.classList.add("hide");
+        const title = document.getElementById("title");
+        if (title.firstChild) {
+            title.removeChild(title.firstChild);
+        }
+        const artist = document.getElementById("artist");
+        if (artist.firstChild) {
+            artist.removeChild(artist.firstChild);
+        }
     }
 
-    hideDescription(scene) {
-
+    displayDescription() {
+        const element = document.getElementById("description");
+        if (!element.firstChild) {
+            let text = document.createTextNode('');
+            element.appendChild(text);
+        }
+        element.firstChild.nodeValue = this.painting.description;
     }
 
-    isClose(camera) {
-        // TODO returns a boolean when the camera is close
+    hideDescription() {
+        const element = document.getElementById("description");
+        if (element.firstChild && element.firstChild.nodeValue === this.painting.description) {
+            element.removeChild(element.firstChild);
+        }
+    }
 
+    isClose(mover) {
+        const distance = this.viewPosition.subtract(mover.position).length();
+        return distance < 2;
     }
 }

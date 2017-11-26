@@ -2,7 +2,7 @@
 
 class Lift {
 
-    constructor(params, scene, camera) {
+    constructor(params, scene, mover) {
         this.name = params.name || "Lift";
         this.position = params.position.clone();
         this.size = params.size;
@@ -12,7 +12,7 @@ class Lift {
 
         this.createLift(scene);
         this.createCage(scene);
-        this.createButton(scene, camera);
+        this.createButton(scene, mover);
     }
 
     createLift(scene) {
@@ -63,7 +63,7 @@ class Lift {
     }
 
 
-    createButton(scene, camera) {
+    createButton(scene, mover) {
         this.button = BABYLON.MeshBuilder.CreateCylinder(
             this.name + "_button",
             {
@@ -78,14 +78,14 @@ class Lift {
         this.button.position = new BABYLON.Vector3(this.size/2 - WALL_THICKNESS/2, this.height/2, 0).addInPlace(this.position);
         this.button.rotation.z = Math.PI/2;
 
-        this.registerActions(scene, camera);
+        this.registerActions(scene, mover);
     }
 
-    registerActions(scene, camera) {
+    registerActions(scene, mover) {
         const upAction = new BABYLON.ExecuteCodeAction(
             BABYLON.ActionManager.OnPickTrigger,
             (event) => {
-                if (this.isInLift(camera)) {
+                if (this.isInLift(mover)) {
                     this.startUpAnimation(scene);
                 }
             }
@@ -93,7 +93,7 @@ class Lift {
         const downAction = new BABYLON.ExecuteCodeAction(
             BABYLON.ActionManager.OnPickTrigger,
             (event) => {
-                if (this.isInLift(camera)) {
+                if (this.isInLift(mover)) {
                     this.startDownAnimation(scene);
                 }
             }
@@ -154,11 +154,11 @@ class Lift {
         }
     }
 
-    isInLift(camera) {
-        return camera.position.y > this.lift.position.y
-            && camera.position.x < this.lift.position.x + this.size/2
-            && camera.position.x > this.lift.position.x - this.size/2
-            && camera.position.z < this.lift.position.z + this.size/2
-            && camera.position.z > this.lift.position.z - this.size/2;
+    isInLift(mover) {
+        return mover.position.y > this.lift.position.y
+            && mover.position.x < this.lift.position.x + this.size/2
+            && mover.position.x > this.lift.position.x - this.size/2
+            && mover.position.z < this.lift.position.z + this.size/2
+            && mover.position.z > this.lift.position.z - this.size/2;
     }
 }

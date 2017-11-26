@@ -50,10 +50,11 @@ class AttractingSphere {
 
     constructor(position, scene, mover) {
         this.segments = 10;
-        this.size = 2;
-        this.position = position;
+        this.size = 1;
+        this.position = new BABYLON.Vector3(0, 2, 0).addInPlace(position);
+
         this.createSphere(scene);
-        this.registerActions(scene, mover);
+        this.registerAction(scene, mover);
     }
 
     createSphere(scene) {
@@ -68,29 +69,21 @@ class AttractingSphere {
                 scene
         );
         this.sphere.material = material;
-        this.sphere.position = this.position.add(
-            new BABYLON.Vector3(0, this.size/2, 0)
-        );
+        this.sphere.position = this.position;
     }
 
-    registerActions(scene, mover) {
-        const attractAction = new BABYLON.ExecuteCodeAction(
+    registerAction(scene, mover) {
+        const action = new BABYLON.ExecuteCodeAction(
             BABYLON.ActionManager.OnPickTrigger,
             (event) => {
-                // todo register force somewhere
-                console.log("Force registered");
-            }
-        );
-        const resetAction = new BABYLON.ExecuteCodeAction(
-            BABYLON.ActionManager.OnPickTrigger,
-            (event) => {
-                // todo un-register force
-                console.log("Force unregistered");
+                if (mover.target === this.position) {
+                    mover.resetAttraction();
+                } else {
+                    mover.target = this.position;
+                }
             }
         );
         this.sphere.actionManager = new BABYLON.ActionManager(scene);
-        this.sphere.actionManager
-            .registerAction(attractAction)
-            .then(resetAction);
+        this.sphere.actionManager.registerAction(action);
     }
 }

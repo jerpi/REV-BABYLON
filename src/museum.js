@@ -2,14 +2,14 @@
 
 class Museum {
 
-    constructor(params, scene, camera, mover) {
+    constructor(params, scene, mover) {
         this.name = params.name || "Museum";
         this.width = params.width || 30;
         this.depth = params.depth || 30;
         this.height = params.height || 6;
         this.nbRooms = 3;
 
-        this.createHall(scene, camera, mover);
+        this.createHall(scene, mover);
         this.createMezzanine(scene);
 
         const textures = [
@@ -32,7 +32,7 @@ class Museum {
         this.createRooms(scene, textures, mover);
     }
 
-    createHall(scene, camera, mover) {
+    createHall(scene, mover) {
         const position = new BABYLON.Vector3(0, 0, this.depth/4);
         const params = {
             name: "Hall",
@@ -41,7 +41,7 @@ class Museum {
             height: this.height,
             position
         };
-        this.hall = new Hall(params, scene, camera, mover);
+        this.hall = new Hall(params, scene, mover);
     }
 
     createMezzanine(scene) {

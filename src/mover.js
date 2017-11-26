@@ -10,31 +10,37 @@
  */
 class Mover {
 
-    constructor(position, mass, dt) {
-        this.position = position || new BABYLON.Vector3.Zero();
+    constructor(position, params) {
+        this.position = position;
         this.speed = new BABYLON.Vector3.Zero();
         this.acceleration = new BABYLON.Vector3.Zero();
-        this.mass = mass || 1;
-        this.dt = dt || 1;
-    }
+        this.mass = params.mass || 1;
+        this.dt = params.dt || 1/60;
+        this.maxVelocity = new BABYLON.Vector3(
+            2,
+            2,
+            2
+        );
+        this.target = undefined;
+    };
 
     applyForce(force) {
         let keys = ["x", "y", "z"];
-        for (let key in keys) {
+        for (let key of keys) {
             this.acceleration[key] += force[key] / this.mass;
         }
     }
 
     updateSpeed() {
         let keys = ["x", "y", "z"];
-        for (let key in keys) {
+        for (let key of keys) {
             this.speed[key] += this.acceleration[key] * this.dt;
         }
     }
 
     updatePosition() {
         let keys = ["x", "y", "z"];
-        for (let key in keys) {
+        for (let key of keys) {
             this.position[key] += this.speed[key] * this.dt;
         }
     }
@@ -44,4 +50,42 @@ class Mover {
         this.updatePosition();
         this.acceleration = new BABYLON.Vector3.Zero();
     }
+
+    calculateSteeringForce(targetPosition) {
+        const distance =  targetPosition.subtract(this.position);
+        const length = distance.length();
+
+        if (length < 0.01) {
+            return;
+        }
+
+        const maxVelocity = new BABYLON.Vector3(
+            Math.min(this.maxVelocity.x, length*0.8),
+            Math.min(this.maxVelocity.y, length*0.8),
+            Math.min(this.maxVelocity.z, length*0.8)
+        );
+
+        const velocity = distance
+            .normalize()
+            .multiply(this.maxVelocity);
+        return velocity.subtract(this.speed);
+    }
+
+    applySteeringForce(targetPosition) {
+        if (!targetPosition) {
+            return;
+        }
+        const steering = this.calculateSteeringForce(targetPosition);
+        if (steering) {
+            this.applyForce(steering);
+        } else {
+            this.resetAttraction();
+        }
+    }
+
+    resetAttraction() {
+        this.target = undefined;
+        this.speed = new BABYLON.Vector3.Zero();
+    }
+
 }

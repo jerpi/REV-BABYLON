@@ -3,7 +3,7 @@
 
 class Hall {
 
-    constructor(params, scene, camera, mover) {
+    constructor(params, scene, mover) {
         this.name = params.name || "Hall";
         this.width = params.width;
         this.depth = params.depth;
@@ -14,8 +14,8 @@ class Hall {
         this.createFloor(scene);
         this.createCeiling(scene);
         this.createStaircase(scene);
-        this.createLift(scene, camera);
-        this.createAttractingSphere(scene, mover);
+        this.createLift(scene, mover);
+        this.createAttractiveSpheres(scene, mover);
     }
 
     createWalls(scene) {
@@ -83,7 +83,7 @@ class Hall {
         const position = new BABYLON.Vector3(
             -(this.width*1/3)/2,
             0,
-            -this.depth/2 // + epaisseur mur
+            -this.depth/2
         );
 
         position.addInPlace(this.position);
@@ -96,12 +96,12 @@ class Hall {
         this.staircase = new Staircase(params, scene);
     }
 
-    createLift(scene, camera) {
+    createLift(scene, mover) {
         const size = 3;
         const position = new BABYLON.Vector3(
             (this.width*1/3)/2,
             0,
-            -(this.depth-size)/2 + WALL_THICKNESS/2// + epaisseur mur
+            -(this.depth-size)/2 + WALL_THICKNESS/2
         );
         position.addInPlace(this.position);
 
@@ -110,10 +110,14 @@ class Hall {
             height: this.height/2,
             position
         };
-        this.lift = new Lift(params, scene, camera);
+        this.lift = new Lift(params, scene, mover);
     }
 
-    createAttractingSphere(scene, mover) {
-        this.attractingSphere = new AttractingSphere(this.position.clone(), scene, mover);
+    createAttractiveSpheres(scene, mover) {
+        this.attractingSpheres = [
+            new AttractingSphere(this.position, scene, mover),
+            new AttractingSphere(new BABYLON.Vector3(12, 0, 5).addInPlace(this.position), scene, mover),
+            new AttractingSphere(new BABYLON.Vector3(-12, 0, -5).addInPlace(this.position), scene, mover)
+        ]
     }
 }

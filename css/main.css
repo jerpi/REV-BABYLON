@@ -1,8 +1,28 @@
  html, body, #canvas {
-            width: 100%;
-            height: 100%;
-            padding: 0;
-            margin: 0;
-            overflow: hidden;
-	    background-color: #aa0000;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    background-color: #aa0000;
 }
+
+ div {
+     background: #222222aa;
+     position: absolute;
+     width: 40%;
+     margin: 20px;
+     padding: 10px;
+ }
+
+ p {
+     color: white;
+ }
+
+ #description {
+     text-align: justify;
+ }
+
+ .hide {
+     display: none;
+ }
