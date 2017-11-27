@@ -2,10 +2,11 @@
 
 ## 1. Mover - spheres (2 points) -> ok
 For some unknown reason, if there is another mesh with another color, spheres will be rendered the same color (instead of semi-transparent) if that mesh is onscreen.
-Ok
+Some oscillations happen, they need to be fixed.
 
-## 2. Mover - paintings (3 points)-> going
-Needs orientation / use orientation specific mover ?
+## 2. Mover - paintings (3 points) -> ok
+Works the same as 1. except a rotation animation is launched when the camera arrives so that it looks at the paiting.
+Sometimes the camera does a full turn before looking at the painting.
 
 ## 3. Doors (3 points) -> ok
 Camera's position is checked every frame in scene's OnEveryFrameTrigger.

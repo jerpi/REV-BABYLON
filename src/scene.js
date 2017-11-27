@@ -78,12 +78,14 @@ class Scene {
                     Painting.hideNameAuthor();
                 }
 
-                this.mover.applySteeringForce(this.mover.target);
+                const target = this.mover.target || {};
+                if (this.mover.applySteeringForce(target.position) === 1) {
+                    this.startLookAtAnimation(target.rotation);
+                }
                 this.mover.update();
                 this.guide.update(this.mover);
             }
         );
-
         this.scene.actionManager = new BABYLON.ActionManager(this.scene);
         this.scene.actionManager.registerAction(action);
     }
@@ -104,6 +106,32 @@ class Scene {
             );
         }
         this.guide = new Guide(path, position, {}, this.scene);
+    }
+
+    startLookAtAnimation(target) {
+        if (!target) {
+            return;
+        }
+        const animation = new BABYLON.Animation(
+            "lookAt",
+            "rotation",
+            60,
+            BABYLON.Animation.ANIMATIONTYPE_VECTOR3,
+            BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE
+        );
+        const animationKeys = [
+            {
+                frame: 0,
+                value: this.camera.rotation
+            },
+            {
+                frame: 60,
+                value: target
+            },
+        ];
+        animation.setKeys(animationKeys);
+        this.camera.animations = [animation];
+        this.scene.beginAnimation(this.camera, 0, 60, false);
     }
 
 }

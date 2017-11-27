@@ -54,6 +54,10 @@ class AttractingSphere {
         this.position = new BABYLON.Vector3(0, 1.5, 0).addInPlace(position);
         this.createSphere(scene);
         this.registerAction(scene, mover);
+
+        this.view = {
+            position: this.position
+        }
     }
 
     createSphere(scene) {
@@ -74,10 +78,10 @@ class AttractingSphere {
         const action = new BABYLON.ExecuteCodeAction(
             BABYLON.ActionManager.OnPickTrigger,
             (event) => {
-                if (mover.target === this.position) {
+                if (mover.target === this.view) {
                     mover.resetAttraction();
                 } else {
-                    mover.target = this.position;
+                    mover.target = this.view;
                 }
             }
         );

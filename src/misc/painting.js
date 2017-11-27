@@ -27,10 +27,10 @@ class Painting {
         const action = new BABYLON.ExecuteCodeAction(
             BABYLON.ActionManager.OnPickTrigger,
             (event) => {
-                if (mover.target === this.viewPosition) {
+                if (mover.target === this.view) {
                     mover.resetAttraction();
                 } else {
-                    mover.target = this.viewPosition;
+                    mover.target = this.view;
                 }
             }
         );
@@ -59,20 +59,27 @@ class Painting {
     }
 
     computeViewPosition() {
-        this.viewPosition = this.position.clone();
+        const position = this.position.clone();
+        const rotation = this.rotation.clone();
         switch(this.rotation.y) {
             case Math.Pi:
             case -Math.PI:
-                this.viewPosition.z -= 2.5;
+                position.z -= 2.5;
                 break;
             case Math.PI/2:
-                this.viewPosition.x -= 2.5;
+                position.x -= 2.5;
                 break;
             case -Math.PI/2:
-                this.viewPosition.x += 2.5;
+                position.x += 2.5;
                 break;
             default:
-                this.viewPosition.z += 2.5;
+                position.z += 2.5;
+                rotation.y += Math.PI;
+        }
+
+        this.view = {
+            position,
+            rotation
         }
     }
 
@@ -128,6 +135,6 @@ class Painting {
     }
 
     isClose(mover) {
-        return this.viewPosition.subtract(mover.position).length() < 1.5;
+        return this.view.position.subtract(mover.position).length() < 1.5;
     }
 }

@@ -1,7 +1,6 @@
 "use strict";
 
 class Mover {
-
     constructor(position, params) {
         this.position = position;
         this.speed = new BABYLON.Vector3.Zero();
@@ -13,7 +12,6 @@ class Mover {
             2,
             2
         );
-        this.target = undefined;
     };
 
     applyForce(force) {
