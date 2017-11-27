@@ -44,12 +44,14 @@ class Painting {
                 if (this.isClose(mover)) {
                     this.displayDescription();
                 }
+                this.showDescription = true;
             }
         );
         const hideAction = new BABYLON.ExecuteCodeAction(
             BABYLON.ActionManager.OnPointerOutTrigger,
             (event) => {
                 this.hideDescription();
+                this.showDescription = false;
             }
         );
         this.mesh.actionManager.registerAction(showAction);
@@ -89,6 +91,11 @@ class Painting {
             artist.appendChild(text);
         }
         artist.firstChild.nodeValue = this.painting.artist;
+        if (this.showDescription) {
+            this.displayDescription();
+        } else {
+            this.hideDescription();
+        }
     }
 
     static hideNameAuthor() {
@@ -105,7 +112,6 @@ class Painting {
     }
 
     displayDescription() {
-        this.displayNameAuthor();
         const element = document.getElementById("description");
         if (!element.firstChild) {
             let text = document.createTextNode('');
