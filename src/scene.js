@@ -50,6 +50,11 @@ class Scene {
             this.scene,
             this.mover,
         );
+
+        this.obstacles = [
+            this.museum.hall.staircase,
+            this.museum.hall.lift,
+        ];
     }
 
     createTriggers() {
@@ -68,7 +73,7 @@ class Scene {
                             }
                         }
                     }
-                    if (room.door.isClose(this.camera)) {
+                    if (room.door.isClose(this.mover) || room.door.isClose(this.guide.mover)) {
                         room.door.open();
                     } else {
                         room.door.close();
@@ -93,10 +98,11 @@ class Scene {
 
     createGuide() {
         const position = this.museum.hall.position.clone();
-        position.y = 1.5;
+        position.y = 0.75;
         const path = [{position}];
         for (let room of this.museum.rooms) {
             path.push(
+                {position: room.door.position.add(new BABYLON.Vector3(0, 0, 5))},
                 {position: room.door.position},                                         // door
                 ...room.paintings.map(painting => ({                                    // each painting
                     position: painting.view.position,
@@ -104,6 +110,7 @@ class Scene {
                     watch: true,
                 })),
                 {position: room.door.position},                                         // door again
+                {position: room.door.position.add(new BABYLON.Vector3(0, 0, 5))},
                 {position}                                                              // back to beginning
             );
         }

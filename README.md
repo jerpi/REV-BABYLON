@@ -21,5 +21,4 @@ Would work better if pointer was fixed to the middle of the screen.
 Camera needs to be in the lift to be able to activate the button.
 Camera's collision and gravity doesn't work if there no input from the user, meaning the camera will either stay in the air or pass through the lift.
 
-## 6. Guide (5 points) -> going
-Steering needs some improvement (around stair and lift).
+## 6. Guide (5 points) -> ok

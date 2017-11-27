@@ -11,6 +11,8 @@ class Wall {
         wall.rotation = params.rotation || wall.rotation;
         wall.material = new BABYLON.StandardMaterial(params.name + "_material", scene);
         wall.material.diffuseTexture = new BABYLON.Texture(params.texture, scene);
+        wall.material.diffuseTexture.uScale = 10;
+        wall.material.diffuseTexture.vScale = 10;
         wall.checkCollisions = params.checkCollisions !== false;
         return wall;
     }

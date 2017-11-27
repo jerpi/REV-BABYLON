@@ -37,24 +37,17 @@ class Mover {
         this.acceleration = new BABYLON.Vector3.Zero();
     }
 
-    calculateSteeringForce(targetPosition, obstacles) {
+    calculateSteeringForce(targetPosition) {
         const distance =  targetPosition.subtract(this.position);
         const length = distance.length();
 
-        if (length < 0.01) {
+        if (length < 0.05) {
             return;
         }
 
         const velocity = distance
             .normalize()
             .scale(Math.min(length/2, this.maxVelocity));
-
-        if (obstacles) {
-            for (let obstacle of obstacles) {
-
-            }
-        }
-
 
         return velocity.subtract(this.speed);
     }

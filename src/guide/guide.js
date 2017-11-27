@@ -90,6 +90,6 @@ class Guide {
     }
 
     isClose(mover) {
-        return mover.position.subtract(this.position).length() < 5;
+        return mover.position.subtract(this.position).length() < 7;
     }
 }
