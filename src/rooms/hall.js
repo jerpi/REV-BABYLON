@@ -115,7 +115,6 @@ class Hall {
 
     createAttractiveSpheres(scene, mover) {
         this.attractingSpheres = [
-            new AttractingSphere(this.position, scene, mover),
             new AttractingSphere(new BABYLON.Vector3(12, 0, 5).addInPlace(this.position), scene, mover),
             new AttractingSphere(new BABYLON.Vector3(-12, 0, -5).addInPlace(this.position), scene, mover)
         ]

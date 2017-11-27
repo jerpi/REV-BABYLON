@@ -61,16 +61,16 @@ class Painting {
         switch(this.rotation.y) {
             case Math.Pi:
             case -Math.PI:
-                this.viewPosition.z -= 3;
+                this.viewPosition.z -= 2.5;
                 break;
             case Math.PI/2:
-                this.viewPosition.x -= 3;
+                this.viewPosition.x -= 2.5;
                 break;
             case -Math.PI/2:
-                this.viewPosition.x += 3;
+                this.viewPosition.x += 2.5;
                 break;
             default:
-                this.viewPosition.z += 3;
+                this.viewPosition.z += 2.5;
         }
     }
 
@@ -105,6 +105,7 @@ class Painting {
     }
 
     displayDescription() {
+        this.displayNameAuthor();
         const element = document.getElementById("description");
         if (!element.firstChild) {
             let text = document.createTextNode('');
@@ -121,7 +122,6 @@ class Painting {
     }
 
     isClose(mover) {
-        const distance = this.viewPosition.subtract(mover.position).length();
-        return distance < 2;
+        return this.viewPosition.subtract(mover.position).length() < 1.5;
     }
 }

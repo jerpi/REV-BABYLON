@@ -51,25 +51,23 @@ class AttractingSphere {
     constructor(position, scene, mover) {
         this.segments = 10;
         this.size = 1;
-        this.position = new BABYLON.Vector3(0, 2, 0).addInPlace(position);
-
+        this.position = new BABYLON.Vector3(0, 1.5, 0).addInPlace(position);
         this.createSphere(scene);
         this.registerAction(scene, mover);
     }
 
     createSphere(scene) {
-        const material = new BABYLON.StandardMaterial("attracting_sphere_material", scene);
-        material.alpha = 0.5;
-        material.diffuseColor = new BABYLON.Color3(0.5, 0.5, 0.5);
-
         this.sphere = new BABYLON.Mesh.CreateSphere(
             "sculpture_attracting_sphere",
             this.segments,
             this.size,
-                scene
+            scene
         );
-        this.sphere.material = material;
+        this.sphere.material = new BABYLON.StandardMaterial("attracting_sphere_material", scene);
         this.sphere.position = this.position;
+        this.sphere.visibility = 0.5;
+        //      this.sphere.material.diffuseTexture = new BABYLON.Texture("assets/textures/glassWindow.jpg", scene);
+        this.sphere.material.ambientColor = new BABYLON.Color3(0.5, 0.5, 0.5);
     }
 
     registerAction(scene, mover) {

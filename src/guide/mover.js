@@ -1,13 +1,5 @@
 "use strict";
 
-/**
- * First apply all forces with calls to applyForce(force : BABYLON.Vector3),
- * then call update()
- * @param initialPosition Initial position of the object
- * @param _mass Mass of the object
- * @param _dt time step
- * @constructor
- */
 class Mover {
 
     constructor(position, params) {
@@ -59,12 +51,6 @@ class Mover {
             return;
         }
 
-        const maxVelocity = new BABYLON.Vector3(
-            Math.min(this.maxVelocity.x, length*0.8),
-            Math.min(this.maxVelocity.y, length*0.8),
-            Math.min(this.maxVelocity.z, length*0.8)
-        );
-
         const velocity = distance
             .normalize()
             .multiply(this.maxVelocity);
@@ -80,6 +66,7 @@ class Mover {
             this.applyForce(steering);
         } else {
             this.resetAttraction();
+            return 1;
         }
     }
 

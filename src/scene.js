@@ -14,9 +14,9 @@ class Scene {
     }
 
     createCamera() {
-        this.camera = new BABYLON.UniversalCamera("UniversalCamera", new BABYLON.Vector3(0, 2, 5), this.scene);
+        this.camera = new BABYLON.UniversalCamera("UniversalCamera", new BABYLON.Vector3(5, 1.5, 5), this.scene);
         this.camera.speed = 0.5;
-        this.mover = new Mover(this.camera.position, 1, 1/60);
+        this.mover = new Mover(this.camera.position, {});
     }
 
     createLights() {
@@ -80,7 +80,7 @@ class Scene {
 
                 this.mover.applySteeringForce(this.mover.target);
                 this.mover.update();
-                this.guide.update();
+                this.guide.update(this.mover);
             }
         );
 
@@ -89,12 +89,21 @@ class Scene {
     }
 
     createGuide() {
-        const params = {
-            mass: 1,
-            dt: 1/60,
-            position: this.museum.hall.position.clone(),
-        };
-        this.guide = new Guide(params, this.scene);
+        const position = this.museum.hall.position.clone();
+        position.y = 1.5;
+        const path = [{position}];
+        for (let room of this.museum.rooms) {
+            path.push(
+                {position: room.door.position},                                         // door
+                ...room.paintings.map(painting => ({                                    // each painting
+                    position: painting.viewPosition,
+                    watch: true,
+                })),
+                {position: room.door.position},                                         // door again
+                {position}                                                              // back to beginning
+            );
+        }
+        this.guide = new Guide(path, position, {}, this.scene);
     }
 
 }

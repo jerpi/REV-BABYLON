@@ -44,7 +44,6 @@ class Door {
     }
 
     open() {
-
         if (this.isOpened) { return; }
 
         const animation = new BABYLON.Animation(
