@@ -2,7 +2,6 @@
 
 ## 1. Mover - spheres (2 points) -> ok
 For some unknown reason, if there is another mesh with another color, spheres will be rendered the same color (instead of semi-transparent) if that mesh is onscreen.
-Some oscillations happen, they need to be fixed.
 
 ## 2. Mover - paintings (3 points) -> ok
 Works the same as 1. except a rotation animation is launched when the camera arrives so that it looks at the paiting.
@@ -24,4 +23,3 @@ Camera's collision and gravity doesn't work if there no input from the user, mea
 
 ## 6. Guide (5 points) -> going
 Steering needs some improvement (around stair and lift).
-Add some sounds.

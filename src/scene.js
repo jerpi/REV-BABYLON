@@ -80,6 +80,7 @@ class Scene {
 
                 const target = this.mover.target || {};
                 if (this.mover.applySteeringForce(target.position) === 1) {
+                    this.mover.resetAttraction();
                     this.startLookAtAnimation(target.rotation);
                 }
                 this.mover.update();
@@ -98,7 +99,8 @@ class Scene {
             path.push(
                 {position: room.door.position},                                         // door
                 ...room.paintings.map(painting => ({                                    // each painting
-                    position: painting.viewPosition,
+                    position: painting.view.position,
+                    rotation: painting.view.rotation,
                     watch: true,
                 })),
                 {position: room.door.position},                                         // door again

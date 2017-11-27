@@ -25,8 +25,12 @@ class CalmState extends State {
         if (res === 1) {
             if (this.guide.path[this.guide.pathIndex].watch) {
                 this.guide.state = new WatchingState(this.guide);
+                this.end();
             }
             this.guide.pathIndex ++;
+            if (this.guide.pathIndex === this.guide.path.length) {
+                this.guide.pathIndex = 0;
+            }
             return;
         } else {
             this.guide.mover.update();
@@ -91,7 +95,6 @@ class WatchingState extends State {
         this.guide.color = new BABYLON.Color3(1, 1, 0);
     }
     step() {
-        console.log("watching");
         if (Date.now() > (this.start + 5000)) {
             this.guide.state = new CalmState(this.guide);
         }

@@ -7,11 +7,7 @@ class Mover {
         this.acceleration = new BABYLON.Vector3.Zero();
         this.mass = params.mass || 1;
         this.dt = params.dt || 1/60;
-        this.maxVelocity = new BABYLON.Vector3(
-            2,
-            2,
-            2
-        );
+        this.maxVelocity = 2;
     };
 
     applyForce(force) {
@@ -41,7 +37,7 @@ class Mover {
         this.acceleration = new BABYLON.Vector3.Zero();
     }
 
-    calculateSteeringForce(targetPosition) {
+    calculateSteeringForce(targetPosition, obstacles) {
         const distance =  targetPosition.subtract(this.position);
         const length = distance.length();
 
@@ -51,7 +47,15 @@ class Mover {
 
         const velocity = distance
             .normalize()
-            .multiply(this.maxVelocity);
+            .scale(Math.min(length/2, this.maxVelocity));
+
+        if (obstacles) {
+            for (let obstacle of obstacles) {
+
+            }
+        }
+
+
         return velocity.subtract(this.speed);
     }
 
@@ -63,7 +67,6 @@ class Mover {
         if (steering) {
             this.applyForce(steering);
         } else {
-            this.resetAttraction();
             return 1;
         }
     }
